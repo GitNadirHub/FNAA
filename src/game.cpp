@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include "globals.hpp"
 #include "resources.hpp"
+#include "camera.hpp"
 using namespace sf;
 
 void Game::initialize()
@@ -72,6 +73,15 @@ GameState updateOffice()
 		pos.x = std::max(pos.x - scrollSpeed*deltaTime, SCREEN_WIDTH - 1600.f);
 		sprOffice.setPosition(pos);
 	}
+	 
+	Vector2f camOffset = sprOffice.getPosition(); // The current camera scroll thingy offset whatever uhhhhhh yeah i guess well this is the camera offset sooo that's it i guess so i hope u got the point like yes ofc this is the camera offset in case u didnt get the point of this comment yet. Anyway, this is the current camera scroll thingy offset whatever uhhhhhh yeah i guess well this is the camera offset sooo that's it i guess so i hope u got the point like yes ofc this is the camera offset 
+	rectPoint cameraBounds({ 1115.f + camOffset.x, 383.f + camOffset.y }, { 1383.f + camOffset.x, 607.f + camOffset.y });
+
+	if (Mouse::isButtonPressed(Mouse::Button::Left) && isInsideRect(cameraBounds, mousePosF))
+	{
+		sndCamOpen.play();
+		return GameState::Camera;
+	}
 
 	boopHitbox.setPosition({ sprOffice.getPosition().x + 1469.f, 558.f });
 	if (Mouse::isButtonPressed(Mouse::Button::Left) && boopHitbox.getGlobalBounds().contains(mousePosF) && sndBoop.getStatus()!=Sound::Status::Playing)
@@ -102,6 +112,8 @@ void Game::update()
 	case GameState::Office:
 		currentState = updateOffice();
 		break;
+	case GameState::Camera:
+		currentState = updateCamera();
 	}
 }
 
@@ -126,6 +138,9 @@ void Game::render()
 		break;
 	case GameState::Office:
 		renderOffice(window);
+		break;
+	case GameState::Camera:
+		renderCamera(window);
 		break;
 	}
 	window.display();

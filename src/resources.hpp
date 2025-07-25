@@ -6,7 +6,17 @@
 extern sf::Sprite sprTitle;
 extern sf::Sprite sprSelect;
 extern sf::Sprite sprOffice;
+extern sf::Sprite sprCamera;
+extern sf::Sprite sprBedroom;
+extern sf::Sprite sprShop;
+extern sf::Sprite sprHall;
+extern sf::Sprite sprExterior;
+extern sf::Sprite sprGarage;
+extern sf::Sprite sprGarden;
+extern sf::Sprite sprBathroom;
 
 extern sf::Sound sndTitle;
 extern sf::Sound sndSelect;
 extern sf::Sound sndBoop;
+extern sf::Sound sndCamOpen;
+extern sf::Sound sndCamClose;
