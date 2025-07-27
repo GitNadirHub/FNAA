@@ -1,6 +1,7 @@
 #include "camera.hpp"
 #include "globals.hpp"
 #include "resources.hpp"
+#include "animatronics.hpp"
 #include <map>
 
 using namespace sf;
@@ -19,39 +20,9 @@ struct Room
 	void calculateOccupants();
 };
 
-Room Garage, Exterior, Shop, Bedroom, Hall, Garden, Bathroom, SWRoom;
+Room Garage, Exterior, Shop, Bedroom, Hall, Garden, Bathroom, SWRoom, You;
 
 Room* currentRoom = &Bedroom;
-
-struct FloweyStruct {
-	uint8_t AILEVEL = 0;
-	Room* location = &Bedroom;
-	void update()
-	{
-
-	}
-};
-
-struct AsgoreStruct {
-	uint8_t AILEVEL = 0;
-	Room* location = &Bedroom;
-	void update()
-	{
-
-	}
-};
-struct StarwalkerStruct {
-	uint8_t AILEVEL = 0;
-	Room* location = &SWRoom;
-	void update()
-	{
-
-	}
-};
-
-FloweyStruct Flowey;
-AsgoreStruct Asgore;
-StarwalkerStruct Starwalker;
 
 void Room::calculateOccupants()
 {
@@ -61,8 +32,6 @@ void Room::calculateOccupants()
 /*
 	occupants = Flowey << 0 | Asgore << 1 | Starwalker << 2;
 */
-
-Texture t_sprBedroom[3];
 
 void drawBedroom(RenderWindow& window) 
 { 
@@ -83,10 +52,26 @@ void drawBedroom(RenderWindow& window)
 
 	window.draw(sprBedroom);
 }
-void drawShop(RenderWindow& window) 
+void drawShop(RenderWindow& window)
 {
-	window.draw(sprShop); 
+	Shop.calculateOccupants();
+
+	static Texture textures[8] = {
+		Texture("res/img/Shop/shop000.png"),
+		Texture("res/img/Shop/shop001.png"),
+		Texture("res/img/Shop/shop010.png"),
+		Texture("res/img/Shop/shop011.png"),
+		Texture("res/img/Shop/shop100.png"),
+		Texture("res/img/Shop/shop101.png"),
+		Texture("res/img/Shop/shop110.png"),
+		Texture("res/img/Shop/shop111.png")
+	};
+
+	sprShop.setTexture(textures[Shop.occupants]);
+
+	window.draw(sprShop);
 }
+
 void drawHall(RenderWindow& window) 
 { 
 	window.draw(sprHall); 
@@ -95,10 +80,22 @@ void drawExterior(RenderWindow& window)
 {
 	window.draw(sprExterior);
 }
-void drawGarage(RenderWindow& window) 
+void drawGarage(RenderWindow& window)
 {
-	window.draw(sprGarage); 
+	Garage.calculateOccupants();
+
+	static Texture textures[4] = {
+		Texture("res/img/Garage/garage000.png"),
+		Texture("res/img/Garage/garage001.png"),
+		Texture("res/img/Garage/garage010.png"),
+		Texture("res/img/Garage/garage011.png")
+	};
+
+	sprGarage.setTexture(textures[Garage.occupants]);
+
+	window.draw(sprGarage);
 }
+
 void drawGarden(RenderWindow& window)
 {
 	window.draw(sprGarden); 
@@ -171,7 +168,7 @@ GameState updateCamera()
 
 	static rectPoint lancerBounds({ 1150.f, 600 }, { SCREEN_WIDTH, SCREEN_HEIGHT });
 
-	if (Mouse::isButtonPressed(Mouse::Button::Left))
+	if (click)
 	{	
 		if (isInsideRect(lancerBounds, mousePosF))
 		{
@@ -181,6 +178,9 @@ GameState updateCamera()
 		switchCameraLogic(mousePosF);
 	}
 
+	Flowey.update();
+	if (game.currentState != GameState::Camera)
+		return game.currentState;
 	return GameState::Camera;
 }
 

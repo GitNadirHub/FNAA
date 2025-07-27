@@ -14,9 +14,14 @@ extern sf::Sprite sprExterior;
 extern sf::Sprite sprGarage;
 extern sf::Sprite sprGarden;
 extern sf::Sprite sprBathroom;
+extern sf::Sprite sprSmallDoor;
+extern sf::Sprite sprSmallDoorF;
+extern sf::Sprite sprBigDoor;
+extern sf::Sprite sprBigDoorF;
 
 extern sf::Sound sndTitle;
 extern sf::Sound sndSelect;
 extern sf::Sound sndBoop;
 extern sf::Sound sndCamOpen;
 extern sf::Sound sndCamClose;
+extern sf::Sound sndJumpscare;

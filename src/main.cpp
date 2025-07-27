@@ -2,8 +2,9 @@
 #include "globals.hpp"
 #include "game.hpp"
 
+Game game;
+
 int main()
 {
-    Game game;
     game.initialize();
 }

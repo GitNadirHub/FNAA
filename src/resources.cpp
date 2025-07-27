@@ -34,7 +34,17 @@ Sprite sprGarden(t_sprGarden);
 Texture t_sprBathroom("res/img/Bathroom/bathroom.png");
 Sprite sprBathroom(t_sprBathroom);
 
+Texture t_sprSmallDoor("res/img/smallDoor.png");
+Sprite sprSmallDoor(t_sprSmallDoor);
 
+Texture t_sprSmallDoorF("res/img/smallDoorF.png");
+Sprite sprSmallDoorF(t_sprSmallDoorF);
+
+Texture t_sprBigDoor("res/img/bigDoor.png");
+Sprite sprBigDoor(t_sprBigDoor);
+
+Texture t_sprBigDoorF("res/img/bigDoorF.png");
+Sprite sprBigDoorF(t_sprBigDoorF);
 
 
 SoundBuffer sndBfrTitle("res/snd/title.wav");
@@ -51,3 +61,6 @@ Sound sndCamOpen(sndBfrCamOpen);
 
 SoundBuffer sndBfrCamClose("res/snd/cam_close.wav");
 Sound sndCamClose(sndBfrCamClose);
+
+SoundBuffer sndBfrJumpscare("res/snd/jumpscare.wav");
+Sound sndJumpscare(sndBfrJumpscare);

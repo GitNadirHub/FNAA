@@ -9,3 +9,14 @@ bool isInsideRect(const rectPoint& rect, const sf::Vector2f& P)
 
     return (P.x >= left && P.x <= right && P.y >= top && P.y <= bottom);
 }
+
+int randRange(int min, int max)
+{
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(min, max);
+    return dis(gen);
+}
+
+bool floweySmallDoor = false, floweyBigDoor = false;
+bool click = false;
