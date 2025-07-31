@@ -20,4 +20,4 @@ extern bool isInsideRect(const rectPoint& rect, const sf::Vector2f& P);
 
 extern int randRange(int min, int max);
 
-extern bool floweySmallDoor, floweyBigDoor, click;
+extern bool floweySmallDoor, floweyBigDoor, click, starwalkerBigDoor;

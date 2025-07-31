@@ -2,25 +2,14 @@
 #include "globals.hpp"
 #include "resources.hpp"
 #include "animatronics.hpp"
+#include "sound.hpp"
 #include <map>
+#include "drink.hpp"
 
 using namespace sf;
 
-struct Room
-{
-	Room* adjRoom[2];
-	uint8_t occupants = 0;
 
-	void addLink(Room* r0 = nullptr, Room* r1 = nullptr, Room* r2 = nullptr)
-	{
-		adjRoom[0] = r0;
-		adjRoom[1] = r1;
-	}
-
-	void calculateOccupants();
-};
-
-Room Garage, Exterior, Shop, Bedroom, Hall, Garden, Bathroom, SWRoom, You;
+Room Garage(0), Exterior(1), Shop(2), Bedroom(3), Hall(4), Garden(5), Bathroom(6), SWRoom(7), You(8);
 
 Room* currentRoom = &Bedroom;
 
@@ -179,8 +168,11 @@ GameState updateCamera()
 	}
 
 	Flowey.update();
+	Starwalker.update();
+	Asgore.update();
 	if (game.currentState != GameState::Camera)
 		return game.currentState;
+	ambienceSound();
 	return GameState::Camera;
 }
 
@@ -190,4 +182,25 @@ void renderCamera(RenderWindow& window)
 
 	roomDrawFunctions[currentRoom](window);
 
+	//debug 
+	if (Asgore.location == currentRoom)
+		window.draw(sprSelect);
+	//debug
+
+	for (auto& drink : drinks)
+	{
+		if (drink.active && drink.room && drink.room == currentRoom) //check if nullptr
+		{
+			sprDrink.setPosition(drink.position);
+			window.draw(sprDrink);
+
+			if (click && sprDrink.getGlobalBounds().contains({ Mouse::getPosition(window).x * 1.f, Mouse::getPosition(window).y * 1.f }))
+			{
+				sndPop.play();
+				drink.active = false;
+				drinkCount--;
+			}
+
+		}
+	}
 }

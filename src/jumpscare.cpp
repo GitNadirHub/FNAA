@@ -37,6 +37,62 @@ GameState floweyJumpscare(RenderWindow &window)
 	return GameState::Jumpscare;
 }
 
+
+Clock swClock;
+
+SoundBuffer sndBfrSWSpeech("res/snd/starwalker.wav");
+Sound sndSWSpeech(sndBfrSWSpeech);
+
+GameState starwalkerJumpscare(RenderWindow& window)
+{
+	float elapsed = swClock.getElapsedTime().asSeconds();
+
+    static Texture swTextures[7] =
+	{
+	Texture("res/img/sw1.png"), Texture("res/img/sw2.png"), Texture("res/img/sw3.png"), Texture("res/img/sw4.png"), Texture("res/img/sw5.png"), Texture("res/img/sw6.png"), Texture("res/img/sw7.png")
+    };
+
+    static Sprite sw[7] = {
+        Sprite(swTextures[0]), Sprite(swTextures[1]), Sprite(swTextures[2]),
+        Sprite(swTextures[3]), Sprite(swTextures[4]), Sprite(swTextures[5]),
+        Sprite(swTextures[6])
+    };
+
+    if (elapsed < 3.8f)
+	{
+		window.draw(sw[0]);
+	}
+	else if (elapsed < 9.7f)
+	{
+		window.draw(sw[1]);
+	}
+	else if (elapsed < 12.f)
+	{
+		window.draw(sw[2]);
+	}
+	else if (elapsed < 17.f)
+	{
+		window.draw(sw[3]);
+	}
+	else if (elapsed < 21.f)
+	{
+		window.draw(sw[4]);
+	}
+	else if (elapsed < 27.f)
+	{
+		window.draw(sw[5]);
+	}
+	else if (elapsed < 30.f)
+	{
+		window.draw(sw[6]);
+	}
+	else
+	{
+		return GameState::Death;
+	}
+	return GameState::Jumpscare;
+}
+
 void floweyInit()
 {
 	sprFloweyJumpscare.setScale({ 15, 15 });
@@ -56,6 +112,10 @@ void Game::jumpscare()
 	case 'F':
 		floweyInit();
 		break;
+	case 'S':
+		swClock.restart();
+		sndSWSpeech.play();
+		break;
 	}
 
 	while (currentState == GameState::Jumpscare)
@@ -69,6 +129,9 @@ void Game::jumpscare()
 		{
 		case 'F':
 			currentState = floweyJumpscare(window);
+			break;
+		case 'S':
+			currentState = starwalkerJumpscare(window);
 			break;
 		}
 		window.display();

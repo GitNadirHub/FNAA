@@ -3,20 +3,19 @@
 #include <SFML/Graphics.hpp>
 
 struct AsgoreStruct {
-	uint8_t AILEVEL = 0;
+	uint8_t AILEVEL = 20;
 	Room* location = &Bedroom;
-	void update()
-	{
-
-	}
+	sf::Clock clock;
+	int consumed = 0;
+	void update();
 };
 struct StarwalkerStruct {
-	uint8_t AILEVEL = 0;
+	uint8_t AILEVEL = 20;
 	Room* location = &SWRoom;
-	void update()
-	{
-
-	}
+	bool isFlashed = false;
+	sf::Clock clock;
+	void update();
+	void reset();
 };
 
 struct FloweyStruct {

@@ -18,6 +18,8 @@ extern sf::Sprite sprSmallDoor;
 extern sf::Sprite sprSmallDoorF;
 extern sf::Sprite sprBigDoor;
 extern sf::Sprite sprBigDoorF;
+extern sf::Sprite sprBigDoorS;
+extern sf::Sprite sprDrink;
 
 extern sf::Sound sndTitle;
 extern sf::Sound sndSelect;
@@ -25,3 +27,8 @@ extern sf::Sound sndBoop;
 extern sf::Sound sndCamOpen;
 extern sf::Sound sndCamClose;
 extern sf::Sound sndJumpscare;
+extern sf::Sound sndEerie;
+extern sf::Sound sndPop;
+extern sf::Sound sndSeven;
+
+extern sf::Font font;

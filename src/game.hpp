@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-enum class GameState {Title, Office, Camera, Jumpscare, Death};
+enum class GameState {Title, Office, Camera, Jumpscare, Death, Win};
 
 class Game {
 public:

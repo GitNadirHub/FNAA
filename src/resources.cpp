@@ -46,6 +46,12 @@ Sprite sprBigDoor(t_sprBigDoor);
 Texture t_sprBigDoorF("res/img/bigDoorF.png");
 Sprite sprBigDoorF(t_sprBigDoorF);
 
+Texture t_sprBigDoorS("res/img/bigDoorS.png");
+Sprite sprBigDoorS(t_sprBigDoorS);
+
+Texture t_sprDrink("res/img/drink.png");
+Sprite sprDrink(t_sprDrink);
+
 
 SoundBuffer sndBfrTitle("res/snd/title.wav");
 Sound sndTitle(sndBfrTitle);
@@ -64,3 +70,14 @@ Sound sndCamClose(sndBfrCamClose);
 
 SoundBuffer sndBfrJumpscare("res/snd/jumpscare.wav");
 Sound sndJumpscare(sndBfrJumpscare);
+
+SoundBuffer sndBfrEerie("res/snd/eerie.wav");
+Sound sndEerie(sndBfrEerie);
+
+SoundBuffer sndBfrPop("res/snd/pop.wav");
+Sound sndPop(sndBfrPop);
+
+SoundBuffer sndBfrSeven("res/snd/SEVEN.wav");
+Sound sndSeven(sndBfrSeven);
+
+Font font("res/fonts/PublicPixel.ttf");

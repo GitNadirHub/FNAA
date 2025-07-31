@@ -3,6 +3,7 @@
 #include "resources.hpp"
 #include "camera.hpp"
 #include "animatronics.hpp"
+#include "timer.hpp"
 //#include "jumpscare.hpp"
 
 using namespace sf;
@@ -18,6 +19,7 @@ void Game::initialize()
 	window = RenderWindow(VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), "Five Nights at Asgore's (because Flower King does not sound as good, I think. It also made the title too long... but now it's even longer because of this explanation...)",
 		State::Fullscreen);
 	window.setFramerateLimit(144);
+	sprDrink.setScale({ 0.1f, 0.1f });
 	initTitle();
 	run();
 }
@@ -34,6 +36,7 @@ void Game::run()
 void initializeOffice()
 {
 	sprOffice.setPosition({-170.f, 0.f});
+	initTimer();
 }
 
 
@@ -69,6 +72,8 @@ rectPoint smallDoor({ 80, 487 }, { 177, 670 });
 GameState updateOffice(Game &game)
 {
 	Flowey.update();
+	Starwalker.update();
+	Asgore.update();
 
 	if (game.currentState != GameState::Office)
 		return game.currentState;
@@ -104,6 +109,7 @@ GameState updateOffice(Game &game)
 	Vector2f bigDoorPos = { 600 + camOffset.x, 230 + camOffset.y };
 	sprBigDoor.setPosition(bigDoorPos);
 	sprBigDoorF.setPosition(bigDoorPos);
+	sprBigDoorS.setPosition(bigDoorPos);
 
 
 	if (click && isInsideRect(cameraBounds, mousePosF))
@@ -192,6 +198,11 @@ void renderOffice(RenderWindow &window)
 			window.draw(sprBigDoorF);
 			Flowey.isFlashed = true;
 		}
+		else if (starwalkerBigDoor)
+		{
+			window.draw(sprBigDoorS);
+			Starwalker.isFlashed = true;
+		}
 		else
 		{
 			window.draw(sprBigDoor);
@@ -200,6 +211,7 @@ void renderOffice(RenderWindow &window)
 	else
 	{
 		Flowey.isFlashed = false;
+		Starwalker.isFlashed = false;
 	}
 
 }
@@ -207,6 +219,7 @@ void renderOffice(RenderWindow &window)
 void Game::render()
 {
 	window.clear();
+
 	switch (currentState)
 	{
 	case GameState::Title:
@@ -219,6 +232,9 @@ void Game::render()
 		renderCamera(window);
 		break;
 	}
+
+	updateTimer(window);
+
 	window.display();
 }
 

@@ -19,4 +19,5 @@ int randRange(int min, int max)
 }
 
 bool floweySmallDoor = false, floweyBigDoor = false;
+bool starwalkerBigDoor = false;
 bool click = false;
