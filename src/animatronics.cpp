@@ -68,7 +68,7 @@ void FloweyStruct::update()
 					elapsed = 0.f;
 					locationLast = location;
 				}
-				if (elapsed >= 15.f)
+				if (elapsed >= 10.f)
 				{
 					game.currentState = GameState::Jumpscare;
 					game.jumpscareCulprit = 'F';
@@ -194,7 +194,7 @@ void StarwalkerStruct::update()
 				locationLast = location;
 			}
 
-			if (elapsed >= 15.f)
+			if (elapsed >= 10.f)
 			{
 				game.currentState = GameState::Jumpscare;
 				game.jumpscareCulprit = 'S';
@@ -207,7 +207,7 @@ void StarwalkerStruct::update()
 	{
 		clock.restart();
 		float randNum = randRange(1, 20);
-		starwalkerWaitTime = randRange(2, 5);
+		starwalkerWaitTime = randRange(1, 5);
 		if (AILEVEL >= randNum)
 		{
 			if (location == &SWRoom)
@@ -304,7 +304,7 @@ void AsgoreStruct::update()
 		return;
 	}
 
-	if (drinkCount >= 7)
+	if (consumed >= 7)
 	{
 		Flowey.AILEVEL = 0;
 		Starwalker.AILEVEL = 0;

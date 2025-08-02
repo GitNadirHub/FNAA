@@ -3,6 +3,7 @@
 #include "resources.hpp"
 #include "animatronics.hpp"
 #include "sound.hpp"
+#include "static.hpp"
 #include <map>
 #include "drink.hpp"
 
@@ -157,10 +158,18 @@ GameState updateCamera()
 
 	static rectPoint lancerBounds({ 1150.f, 600 }, { SCREEN_WIDTH, SCREEN_HEIGHT });
 
+	if (sndStatic.getStatus()!=Sound::Status::Playing)
+	{
+		sndStatic.play();
+		sndStatic.setLooping(true);
+		sndStatic.setVolume(50.f);
+	}
+
 	if (click)
 	{	
 		if (isInsideRect(lancerBounds, mousePosF))
 		{
+			sndStatic.pause();
 			sndCamClose.play();
 			return GameState::Office;
 		}
@@ -171,13 +180,19 @@ GameState updateCamera()
 	Starwalker.update();
 	Asgore.update();
 	if (game.currentState != GameState::Camera)
+	{
+		sndStatic.stop();
 		return game.currentState;
+	}
 	ambienceSound();
 	return GameState::Camera;
 }
 
 void renderCamera(RenderWindow& window)
 {
+	static auto lastRoom = currentRoom;
+	static auto lastOccupants = currentRoom->occupants;
+
 	window.draw(sprCamera);
 
 	roomDrawFunctions[currentRoom](window);
@@ -203,4 +218,22 @@ void renderCamera(RenderWindow& window)
 
 		}
 	}
+
+	static bool staticShouldPlay = false; //to clarify, on switching states
+
+	if (lastRoom != currentRoom || lastOccupants != currentRoom->occupants)
+	{
+		staticShouldPlay = true;
+	}
+	if (staticShouldPlay)
+	{
+		staticShouldPlay = renderStaticOnUpdate(window);
+	}
+	else if (currentRoom != &SWRoom)
+	{
+		renderGeneralStatic(window);
+	}
+
+	lastRoom = currentRoom;
+	lastOccupants = currentRoom->occupants;
 }

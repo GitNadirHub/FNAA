@@ -80,4 +80,7 @@ Sound sndPop(sndBfrPop);
 SoundBuffer sndBfrSeven("res/snd/SEVEN.wav");
 Sound sndSeven(sndBfrSeven);
 
+SoundBuffer soundBfrStatic("res/snd/static.wav");
+Sound sndStatic(soundBfrStatic);
+
 Font font("res/fonts/PublicPixel.ttf");

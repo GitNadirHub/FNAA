@@ -8,7 +8,7 @@
 
 using namespace sf;
 
-int drinkCount = 7;
+int drinkCount = 0;
 
 Drink drinks[7];
 

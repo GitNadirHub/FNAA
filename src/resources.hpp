@@ -30,5 +30,6 @@ extern sf::Sound sndJumpscare;
 extern sf::Sound sndEerie;
 extern sf::Sound sndPop;
 extern sf::Sound sndSeven;
+extern sf::Sound sndStatic;
 
 extern sf::Font font;
