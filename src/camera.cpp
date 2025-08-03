@@ -96,7 +96,9 @@ void drawBathroom(RenderWindow& window)
 }
 void drawSWRoom(RenderWindow& window)
 { 
-	//nothing for now
+	static Texture t("res/img/swroom.png");
+	static Sprite sprSWRoom(t);
+	window.draw(sprSWRoom);
 }
 
 std::map<Room*, void(*)(RenderWindow&)> roomDrawFunctions = {
@@ -224,6 +226,8 @@ void renderCamera(RenderWindow& window)
 	if (lastRoom != currentRoom || lastOccupants != currentRoom->occupants)
 	{
 		staticShouldPlay = true;
+		sndStaticFlash.play();
+		sndStaticFlash.setPitch(randRange(50, 150) / 100.f);
 	}
 	if (staticShouldPlay)
 	{
@@ -231,9 +235,23 @@ void renderCamera(RenderWindow& window)
 	}
 	else if (currentRoom != &SWRoom)
 	{
+		sndStaticFlash.stop();
 		renderGeneralStatic(window);
 	}
 
 	lastRoom = currentRoom;
 	lastOccupants = currentRoom->occupants;
+
+	static SoundBuffer sndBfrCooking("res/snd/cooking.wav");
+	static Sound sndCooking(sndBfrCooking);
+
+	if (currentRoom == &SWRoom)
+	{
+		if (Starwalker.location == &SWRoom)
+		{
+			if (sndCooking.getStatus() != Sound::Status::Playing) sndCooking.play();
+		}
+		else sndCooking.stop();
+	}
+	else sndCooking.pause();
 }

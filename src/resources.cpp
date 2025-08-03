@@ -83,4 +83,13 @@ Sound sndSeven(sndBfrSeven);
 SoundBuffer soundBfrStatic("res/snd/static.wav");
 Sound sndStatic(soundBfrStatic);
 
+SoundBuffer soundBfrStaticFlash("res/snd/static_flash.wav");
+Sound sndStaticFlash(soundBfrStaticFlash);
+
+SoundBuffer sndBfrFnaf2Hall("res/snd/fnaf2_hall.wav");
+Sound sndFnaf2Hall(sndBfrFnaf2Hall);
+
+SoundBuffer sndBfrBuzz("res/snd/buzz.wav");
+Sound sndBuzz(sndBfrBuzz);
+
 Font font("res/fonts/PublicPixel.ttf");

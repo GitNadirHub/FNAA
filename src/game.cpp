@@ -21,6 +21,7 @@ void Game::initialize()
 	window.setFramerateLimit(144);
 	sprDrink.setScale({ 0.1f, 0.1f });
 	initTitle();
+	sndBuzz.setVolume(30.f);
 	run();
 }
 
@@ -175,12 +176,15 @@ void renderOffice(RenderWindow &window)
 	if (!Mouse::isButtonPressed(Mouse::Button::Left))
 	{
 		Flowey.isFlashed = false;
+		Starwalker.isFlashed = false;
+		sndBuzz.stop();
 		return;
 	}
 	Vector2i mousePos = Mouse::getPosition(window);
 	Vector2f mousePosF = { mousePos.x * 1.f, mousePos.y * 1.f };
 	if (isInsideRect(smallDoor, mousePosF))
 	{
+		if (sndBuzz.getStatus() != Sound::Status::Playing) sndBuzz.play();
 		if (floweySmallDoor)
 		{
 			window.draw(sprSmallDoorF);
@@ -193,15 +197,20 @@ void renderOffice(RenderWindow &window)
 	}
 	else if (isInsideRect(bigDoor, mousePosF))
 	{
+		if (sndBuzz.getStatus() != Sound::Status::Playing) sndBuzz.play();
 		if (floweyBigDoor)
 		{
 			window.draw(sprBigDoorF);
 			Flowey.isFlashed = true;
+			if (sndFnaf2Hall.getStatus() != Sound::Status::Playing) sndFnaf2Hall.play();
+
 		}
 		else if (starwalkerBigDoor)
 		{
 			window.draw(sprBigDoorS);
 			Starwalker.isFlashed = true;
+			if (sndFnaf2Hall.getStatus() != Sound::Status::Playing) sndFnaf2Hall.play();
+
 		}
 		else
 		{
@@ -210,6 +219,7 @@ void renderOffice(RenderWindow &window)
 	}
 	else
 	{
+		sndBuzz.stop();
 		Flowey.isFlashed = false;
 		Starwalker.isFlashed = false;
 	}
