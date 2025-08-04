@@ -40,6 +40,7 @@ void initializeOffice()
 	initTimer();
 }
 
+int GCount = 0;
 
 GameState updateTitle(RenderWindow &window)
 {
@@ -65,6 +66,7 @@ GameState updateTitle(RenderWindow &window)
 
 }
 
+extern bool G;
 RectangleShape boopHitbox({ 50, 50 }); //boop ralsei :3
 
 rectPoint bigDoor({ 600, 200 }, { 1035, 582 });
@@ -75,6 +77,10 @@ GameState updateOffice(Game &game)
 	Flowey.update();
 	Starwalker.update();
 	Asgore.update();
+
+	GCount += G;
+	if (GCount > 666)
+		std::exit(666);
 
 	if (game.currentState != GameState::Office)
 		return game.currentState;
@@ -115,6 +121,7 @@ GameState updateOffice(Game &game)
 
 	if (click && isInsideRect(cameraBounds, mousePosF))
 	{
+		G = false;
 		sndCamOpen.play();
 		return GameState::Camera;
 	}
@@ -162,6 +169,28 @@ void Game::update()
 		deathScreen();
 		break;
 	}
+	//update hall, im lazy to put it where im supposed to because i want this to always be updated
+	static Clock panClock;
+	static bool movingLeft = true;
+	static float xMax = 440.f;
+	static float x = 0.f;
+
+	float panSpeed = 120.f;
+
+	if (panClock.getElapsedTime().asSeconds() > 5.f)
+	{
+		movingLeft = !movingLeft;
+		panClock.restart();
+	}
+
+	if (movingLeft)
+		x -= panSpeed * deltaTime;
+	else
+		x += panSpeed * deltaTime;
+
+	x = std::clamp(x, -xMax, 100.f);
+	sprHall.setPosition({ x, 0.f });
+
 }
 
 void renderTitle(RenderWindow &window)
@@ -170,8 +199,19 @@ void renderTitle(RenderWindow &window)
 	window.draw(sprSelect);
 }
 
+
 void renderOffice(RenderWindow &window)
 {
+	if (G)
+	{
+		{ { { { { { {} } } } } }
+		static Texture tMysteryMan("res/img/mysteryman.png");
+		sprOffice.setTexture(tMysteryMan);
+		} {} {}
+	}
+	else if (&sprOffice.getTexture() != &t_sprOffice) sprOffice.setTexture(t_sprOffice);
+
+
 	window.draw(sprOffice);
 	if (!Mouse::isButtonPressed(Mouse::Button::Left))
 	{

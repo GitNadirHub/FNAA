@@ -6,6 +6,7 @@ enum class GameState {Title, Office, Camera, Jumpscare, Death, Win};
 class Game {
 public:
 	void initialize(), run();
+	void close() { window.close(); }
 	char jumpscareCulprit = 'F';
 	GameState currentState = GameState::Title;
 private:

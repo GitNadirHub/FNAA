@@ -18,6 +18,6 @@ struct rectPoint
 
 extern bool isInsideRect(const rectPoint& rect, const sf::Vector2f& P);
 
-extern int randRange(int min, int max);
+extern int randRange(int min, int max), FUN;
 
 extern bool floweySmallDoor, floweyBigDoor, click, starwalkerBigDoor;

@@ -62,10 +62,25 @@ void drawShop(RenderWindow& window)
 	window.draw(sprShop);
 }
 
-void drawHall(RenderWindow& window) 
-{ 
-	window.draw(sprHall); 
+void drawHall(RenderWindow& window)
+{
+	Hall.calculateOccupants();
+
+	int occ = Hall.occupants;
+	occ >>= 1;
+
+	static Texture textures[4] = {
+		Texture("res/img/Hall/hall00.png"),
+		Texture("res/img/Hall/hall01.png"),
+		Texture("res/img/Hall/hall10.png"),
+		Texture("res/img/Hall/hall11.png")
+	};
+
+	sprHall.setTexture(textures[occ]);
+
+	window.draw(sprHall);
 }
+
 void drawExterior(RenderWindow& window) 
 {
 	window.draw(sprExterior);
@@ -88,12 +103,45 @@ void drawGarage(RenderWindow& window)
 
 void drawGarden(RenderWindow& window)
 {
-	window.draw(sprGarden); 
+	Garden.calculateOccupants();
+
+	int occ = Garden.occupants;
+
+	occ >>= 1; //shift right to get rid of Flowey, as he is not here ever
+
+	static Texture textures[4] = {
+		Texture("res/img/Garden/garden00.png"),
+		Texture("res/img/Garden/garden01.png"),
+		Texture("res/img/Garden/garden10.png"),
+		Texture("res/img/Garden/garden11.png")
+	};
+
+	sprGarden.setTexture(textures[occ]);
+
+	window.draw(sprGarden);
 }
-void drawBathroom(RenderWindow& window) 
+
+
+void drawBathroom(RenderWindow& window)
 {
-	window.draw(sprBathroom); 
+	Bathroom.calculateOccupants();
+
+	int occ = Bathroom.occupants;
+
+	occ >>= 1;
+
+	static Texture textures[4] = {
+		Texture("res/img/Bathroom/bathroom00.png"),
+		Texture("res/img/Bathroom/bathroom01.png"),
+		Texture("res/img/Bathroom/bathroom10.png"),
+		Texture("res/img/Bathroom/bathroom11.png")
+	};
+
+	sprBathroom.setTexture(textures[occ]);
+
+	window.draw(sprBathroom);
 }
+
 void drawSWRoom(RenderWindow& window)
 { 
 	static Texture t("res/img/swroom.png");
@@ -152,6 +200,7 @@ void switchCameraLogic(const Vector2f& mousePosF)
 	currentRoom = roomToSwitchTo;
 }
 
+bool G = false;
 
 GameState updateCamera()
 {
@@ -171,6 +220,8 @@ GameState updateCamera()
 	{	
 		if (isInsideRect(lancerBounds, mousePosF))
 		{
+			FUN = randRange(0, 100);
+			if (FUN == 66 && randRange(0, 10) == 6) G = true;
 			sndStatic.pause();
 			sndCamClose.play();
 			return GameState::Office;
@@ -208,7 +259,10 @@ void renderCamera(RenderWindow& window)
 	{
 		if (drink.active && drink.room && drink.room == currentRoom) //check if nullptr
 		{
-			sprDrink.setPosition(drink.position);
+			if (currentRoom == &Hall)
+				sprDrink.setPosition(drink.position + sprHall.getPosition());
+			else
+				sprDrink.setPosition(drink.position);
 			window.draw(sprDrink);
 
 			if (click && sprDrink.getGlobalBounds().contains({ Mouse::getPosition(window).x * 1.f, Mouse::getPosition(window).y * 1.f }))
@@ -254,4 +308,9 @@ void renderCamera(RenderWindow& window)
 		else sndCooking.stop();
 	}
 	else sndCooking.pause();
+
+	static Texture t_sprCover("res/img/cover.png");
+	static Sprite sprCover(t_sprCover);
+
+	window.draw(sprCover);
 }

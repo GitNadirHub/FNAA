@@ -37,3 +37,5 @@ extern sf::Sound sndFnaf2Hall;
 extern sf::Sound sndBuzz;
 
 extern sf::Font font;
+
+extern sf::Texture t_sprOffice;

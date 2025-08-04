@@ -19,7 +19,7 @@ Sprite sprShop(t_sprShop);
 Texture t_sprBedroom("res/img/Bedroom/bedroom.png");
 Sprite sprBedroom(t_sprBedroom);
 
-Texture t_sprHall("res/img/Hall/hall.png");
+Texture t_sprHall("res/img/Hall/hall00.png");
 Sprite sprHall(t_sprHall);
 
 Texture t_sprExterior("res/img/Exterior/exterior.png");
@@ -28,10 +28,10 @@ Sprite sprExterior(t_sprExterior);
 Texture t_sprGarage("res/img/Garage/garage.png");
 Sprite sprGarage(t_sprGarage);
 
-Texture t_sprGarden("res/img/Garden/garden.png");
+Texture t_sprGarden("res/img/Garden/garden00.png");
 Sprite sprGarden(t_sprGarden);
 
-Texture t_sprBathroom("res/img/Bathroom/bathroom.png");
+Texture t_sprBathroom("res/img/Bathroom/bathroom00.png");
 Sprite sprBathroom(t_sprBathroom);
 
 Texture t_sprSmallDoor("res/img/smallDoor.png");

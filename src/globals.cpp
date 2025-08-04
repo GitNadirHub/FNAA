@@ -1,5 +1,7 @@
 #include "globals.hpp"
 
+int FUN = 17;
+
 bool isInsideRect(const rectPoint& rect, const sf::Vector2f& P)
 {
     float left = std::min(rect.A.x, rect.B.x);
