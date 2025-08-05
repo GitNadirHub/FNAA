@@ -22,7 +22,7 @@ Sprite sprBedroom(t_sprBedroom);
 Texture t_sprHall("res/img/Hall/hall00.png");
 Sprite sprHall(t_sprHall);
 
-Texture t_sprExterior("res/img/Exterior/exterior.png");
+Texture t_sprExterior("res/img/Exterior/exterior000.png");
 Sprite sprExterior(t_sprExterior);
 
 Texture t_sprGarage("res/img/Garage/garage.png");

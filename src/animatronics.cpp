@@ -410,3 +410,12 @@ void AsgoreStruct::update()
         }
     }
 }
+
+
+void AsgoreStruct::reset()
+{
+	location = &Bedroom;
+	clock.restart();
+	asgoreWaitTime = 5;
+	consumed = 0;
+}

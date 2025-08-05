@@ -294,5 +294,7 @@ void Game::reset()
 	currentState = GameState::Title;
 	jumpscareCulprit = 'F';
 	Flowey.reset();
+	Starwalker.reset();
+	Asgore.reset();
 	initTitle();
 }

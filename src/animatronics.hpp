@@ -8,6 +8,7 @@ struct AsgoreStruct {
 	sf::Clock clock;
 	int consumed = 0;
 	void update();
+	void reset();
 };
 struct StarwalkerStruct {
 	uint8_t AILEVEL = 20;

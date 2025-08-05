@@ -81,10 +81,26 @@ void drawHall(RenderWindow& window)
 	window.draw(sprHall);
 }
 
-void drawExterior(RenderWindow& window) 
+void drawExterior(RenderWindow& window)
 {
+	Exterior.calculateOccupants();
+
+	static Texture textures[8] = {
+		Texture("res/img/Exterior/exterior000.png"),
+		Texture("res/img/Exterior/exterior001.png"),
+		Texture("res/img/Exterior/exterior010.png"),
+		Texture("res/img/Exterior/exterior011.png"),
+		Texture("res/img/Exterior/exterior100.png"),
+		Texture("res/img/Exterior/exterior101.png"),
+		Texture("res/img/Exterior/exterior110.png"),
+		Texture("res/img/Exterior/exterior111.png")
+	};
+
+	sprExterior.setTexture(textures[Exterior.occupants]);
+
 	window.draw(sprExterior);
 }
+
 void drawGarage(RenderWindow& window)
 {
 	Garage.calculateOccupants();
@@ -221,7 +237,7 @@ GameState updateCamera()
 		if (isInsideRect(lancerBounds, mousePosF))
 		{
 			FUN = randRange(0, 100);
-			if (FUN == 66 && randRange(0, 10) == 6) G = true;
+			if (FUN == 66 && randRange(0, 10) == 6 && randRange(-66, 66) == 6) G = true;
 			sndStatic.pause();
 			sndCamClose.play();
 			return GameState::Office;
@@ -249,11 +265,6 @@ void renderCamera(RenderWindow& window)
 	window.draw(sprCamera);
 
 	roomDrawFunctions[currentRoom](window);
-
-	//debug 
-	if (Asgore.location == currentRoom)
-		window.draw(sprSelect);
-	//debug
 
 	for (auto& drink : drinks)
 	{
