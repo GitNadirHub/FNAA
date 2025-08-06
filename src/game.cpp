@@ -8,6 +8,31 @@
 
 using namespace sf;
 
+Night //night1(3, 0, 1, 0),
+night1(20, 20, 20, 20),
+			night2(5, 2, 0, 0),
+			night3(7, 5, 7, 2),
+			night4(10, 7, 10, 7),
+			night5(15, 10, 15, 15),
+			night6(20, 15, 18, 17);
+
+void Night::initNight()
+{
+	Asgore.AILEVEL = AILEVELS[0];
+	Flowey.AILEVEL = AILEVELS[1];
+	Starwalker.AILEVEL = AILEVELS[2];
+	Knight.AILEVEL = AILEVELS[3];
+}
+
+void startNight()
+{
+	game.currentNight->initNight();
+	Flowey.reset();
+	Starwalker.reset();
+	Asgore.reset();
+
+}
+
 void initTitle()
 {
 	sndTitle.setLooping(true);
@@ -60,6 +85,7 @@ GameState updateTitle(RenderWindow &window)
 	{
 		sndTitle.stop();
 		initializeOffice();
+		startNight();
 		return GameState::Office;
 	}
 	return GameState::Title;
@@ -77,6 +103,7 @@ GameState updateOffice(Game &game)
 	Flowey.update();
 	Starwalker.update();
 	Asgore.update();
+	Knight.update();
 
 	GCount += G;
 	if (GCount > 666)

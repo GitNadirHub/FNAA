@@ -103,9 +103,60 @@ void floweyInit()
 
 }
 
+Texture t("res/img/truck.png");
+Sprite truck(t);
+
+void asgoreInit()
+{
+	sndBeep.play(); 
+	truck.setPosition({ 695, 377 });
+	truck.setOrigin({ 211, 213 });
+}
+
+GameState asgoreJumpscare(RenderWindow& window)
+{
+	static float scrollSpeed = 1000.f;
+	Vector2i mousePos = Mouse::getPosition();
+	Vector2f mousePosF = { mousePos.x * 1.f, mousePos.y * 1.f };
+	if (mousePos.x < 400)
+	{
+		Vector2f pos = sprOffice.getPosition();
+		pos.x = std::min(pos.x + scrollSpeed * deltaTime, 0.f);
+		sprOffice.setPosition(pos);
+	}
+	else if (mousePos.x > SCREEN_WIDTH - 400)
+	{
+		Vector2f pos = sprOffice.getPosition();
+		pos.x = std::max(pos.x - scrollSpeed * deltaTime, SCREEN_WIDTH - 1600.f);
+		sprOffice.setPosition(pos);
+	}
+
+	Vector2f camOffset = sprOffice.getPosition(); // The current camera scroll thingy offset whatever uhhhhhh yeah i guess well this is the camera offset sooo that's it i guess so i hope u got the point like yes ofc this is the camera offset in case u didnt get the point of this comment yet. Anyway, this is the current camera scroll thingy offset whatever uhhhhhh yeah i guess well this is the camera offset sooo that's it i guess so i hope u got the point like yes ofc this is the camera offset 
+	rectPoint cameraBounds({ 1115.f + camOffset.x, 383.f + camOffset.y }, { 1383.f + camOffset.x, 607.f + camOffset.y });
+
+	Vector2f p = Vector2f({ 695, 577 }) + camOffset; //ive never written worse code before but im about to fall asleep
+
+	truck.setPosition(p);
+
+	float scale = sndBeep.getPlayingOffset().asSeconds();
+
+	truck.setScale({ scale, scale });
+	if (sndBeep.getStatus() != Sound::Status::Playing) return GameState::Death;
+
+	window.draw(sprOffice);
+	window.draw(truck);
+
+	return GameState::Jumpscare;
+}
+
 void Game::jumpscare()
 {
 	animClock.restart();
+
+	sndBuzz.stop();
+	sndFnaf2Hall.stop();
+	sndIntercepted.stop();
+	sndStatic.stop();
 
 	switch (jumpscareCulprit)
 	{
@@ -115,6 +166,9 @@ void Game::jumpscare()
 	case 'S':
 		swClock.restart();
 		sndSWSpeech.play();
+		break;
+	case 'A':
+		asgoreInit();
 		break;
 	}
 
@@ -133,6 +187,8 @@ void Game::jumpscare()
 		case 'S':
 			currentState = starwalkerJumpscare(window);
 			break;
+		case 'A':
+			currentState = asgoreJumpscare(window);
 		}
 		window.display();
 	}

@@ -35,6 +35,8 @@ extern sf::Sound sndStatic;
 extern sf::Sound sndStaticFlash;
 extern sf::Sound sndFnaf2Hall;
 extern sf::Sound sndBuzz;
+extern sf::Sound sndIntercepted;
+extern sf::Sound sndBeep;
 
 extern sf::Font font;
 

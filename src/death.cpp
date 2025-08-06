@@ -7,7 +7,11 @@ Clock fadeClock;
 void Game::deathScreen()
 {
     static Texture tDeath("res/img/gameover.png");
+    static Texture tRan("res/img/ranover.png");
     static Sprite sprDeath(tDeath);
+
+    if (jumpscareCulprit == 'A') sprDeath.setTexture(tRan);
+    else sprDeath.setTexture(tDeath);
 
     fadeClock.restart();
 

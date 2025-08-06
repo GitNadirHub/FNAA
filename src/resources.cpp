@@ -92,4 +92,11 @@ Sound sndFnaf2Hall(sndBfrFnaf2Hall);
 SoundBuffer sndBfrBuzz("res/snd/buzz.wav");
 Sound sndBuzz(sndBfrBuzz);
 
+SoundBuffer sndBfrIntercepted("res/snd/the.wav");
+Sound sndIntercepted(sndBfrIntercepted);
+
+SoundBuffer sndBfrBeep("res/snd/beep.wav");
+Sound sndBeep(sndBfrBeep);
+
+
 Font font("res/fonts/PublicPixel.ttf");

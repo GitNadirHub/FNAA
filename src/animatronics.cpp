@@ -11,6 +11,7 @@ using namespace sf;
 FloweyStruct Flowey;
 AsgoreStruct Asgore;
 StarwalkerStruct Starwalker;
+KnightStruct Knight;
 
 uint8_t floweyWaitTime = 5;
 uint8_t starwalkerWaitTime = 5;
@@ -20,13 +21,8 @@ void FloweyStruct::update()
 {
 	float elapsed = clock.getElapsedTime().asSeconds();
 
-	static Room* locationLast = location;
-	static bool lastFrameFlashed = false;
-
-
 	if (location == &You)
 	{
-		static Clock totalClock;
 		if (!totalClock.isRunning())
 			totalClock.restart();
 		float totalElapsed = totalClock.getElapsedTime().asSeconds();
@@ -125,8 +121,11 @@ void FloweyStruct::update()
 void FloweyStruct::reset()
 {
 	location = &Bedroom;
+	locationLast = location;
 	floweyWaitTime = 5;
 	clock.restart();
+	totalClock.reset();
+	lastFrameFlashed = false;
 	floweySmallDoor = false;
 	floweyBigDoor = false;
 }
@@ -143,9 +142,6 @@ Room* SWRandRoom()
 void StarwalkerStruct::update()
 {
 	float elapsed = clock.getElapsedTime().asSeconds();
-
-	static Room* locationLast = location;
-	static bool lastFrameFlashed = false;
 
 	if (location == &You)
 	{
@@ -254,6 +250,8 @@ void StarwalkerStruct::reset()
 	starwalkerWaitTime = 5;
 	clock.restart();
 	starwalkerBigDoor = false;
+	locationLast = location;
+	lastFrameFlashed = false;
 }
 
 void AsgoreStruct::update()
@@ -261,10 +259,6 @@ void AsgoreStruct::update()
     float elapsed = clock.getElapsedTime().asSeconds();
 
     static Room* possibleRooms[7] = { &Bedroom, &Shop, &Hall, &Garden, &Bathroom, &Exterior, &Garage };
-
-	static bool attackMode = false;
-
-	static Clock attackClock;
 
 	if (attackMode)
 	{
@@ -299,6 +293,7 @@ void AsgoreStruct::update()
 			else if (location == &Garage && sndSeven.getStatus()!=Sound::Status::Playing)
 			{
 				game.currentState = GameState::Jumpscare;
+				game.jumpscareCulprit = 'A';
 			}
 		}
 		return;
@@ -316,8 +311,6 @@ void AsgoreStruct::update()
 		return;
 	}
 
-    static Clock drinkClock;
-    static char drinkStage = '0';
     if (drinkStage == '1')
     {
         if (drinkClock.getElapsedTime().asSeconds() < 5.f)
@@ -325,8 +318,6 @@ void AsgoreStruct::update()
         drinkStage = '2';
     }
 
-    static Clock spawnClock;
-    static float spawnInterval = randRange(5, 20);
     if (spawnClock.getElapsedTime().asSeconds() >= spawnInterval)
     {
         spawnDrink();
@@ -418,4 +409,45 @@ void AsgoreStruct::reset()
 	clock.restart();
 	asgoreWaitTime = 5;
 	consumed = 0;
+	attackMode = false;
+	attackClock.restart();
+	drinkStage = '0';
+	drinkClock.restart();
+	spawnClock.restart();
+	spawnInterval = randRange(5, 20);
+}
+
+
+void KnightStruct::update()
+{
+	static Clock triggerClock;
+	static bool isDisabling = false;
+	static Clock disableClock;
+	static float disableDuration = 0.f;
+
+	if (AILEVEL == 0) return; //no knight is ailevel 0
+
+	if (!isDisabling)
+	{
+		float interval = 120.f / std::max(1, (int)AILEVEL);
+		if (triggerClock.getElapsedTime().asSeconds() >= interval)
+		{
+			static Room* possibleRooms[7] = { &Bedroom, &Shop, &Hall, &Garden, &Bathroom, &Exterior, &Garage };
+			location = possibleRooms[randRange(0, 6)];
+
+			float denom = randRange(4, 6);
+			disableDuration = 3.f + (float(AILEVEL) / denom);
+
+			disableClock.restart();
+			isDisabling = true;
+		}
+	}
+	else
+	{
+		if (disableClock.getElapsedTime().asSeconds() >= disableDuration)
+		{
+			isDisabling = false;
+			triggerClock.restart();
+		}
+	}
 }

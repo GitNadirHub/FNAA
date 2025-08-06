@@ -248,6 +248,8 @@ GameState updateCamera()
 	Flowey.update();
 	Starwalker.update();
 	Asgore.update();
+	Knight.update();
+
 	if (game.currentState != GameState::Camera)
 	{
 		sndStatic.stop();
@@ -312,13 +314,38 @@ void renderCamera(RenderWindow& window)
 
 	if (currentRoom == &SWRoom)
 	{
+		sndIntercepted.stop();
+		sndIntercepted.setLooping(false);
+		sndIntercepted.setVolume(0.f);
+
 		if (Starwalker.location == &SWRoom)
 		{
 			if (sndCooking.getStatus() != Sound::Status::Playing) sndCooking.play();
 		}
 		else sndCooking.stop();
 	}
-	else sndCooking.pause();
+	else
+	{
+		sndCooking.pause();
+		if (currentRoom == Knight.location)
+		{
+			static Texture t_sprIntercepted("res/img/intercepted.png");
+			static Sprite sprIntercepted(t_sprIntercepted);
+			window.draw(sprIntercepted);
+			if (sndIntercepted.getStatus() != Sound::Status::Playing)
+			{
+				sndIntercepted.play();
+				sndIntercepted.setLooping(true);
+				sndIntercepted.setVolume(50.f);
+			}
+		}
+		else
+		{
+			sndIntercepted.stop();
+			sndIntercepted.setLooping(false);
+			sndIntercepted.setVolume(0.f);
+		}	
+	}
 
 	static Texture t_sprCover("res/img/cover.png");
 	static Sprite sprCover(t_sprCover);
