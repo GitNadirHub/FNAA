@@ -4,17 +4,24 @@
 #include "camera.hpp"
 #include "animatronics.hpp"
 #include "timer.hpp"
+#include "quitting.hpp"
 //#include "jumpscare.hpp"
 
 using namespace sf;
 
-Night //night1(3, 0, 1, 0),
-night1(20, 20, 20, 20),
-			night2(5, 2, 0, 0),
-			night3(7, 5, 7, 2),
-			night4(10, 7, 10, 7),
-			night5(15, 10, 15, 15),
-			night6(20, 15, 18, 17);
+//Night		night1(20, 20, 20, 20, 1),
+Night		night1(3, 0, 1, 0, 1),
+			night2(5, 2, 0, 0, 2),
+			night3(7, 5, 7, 2, 3),
+			night4(10, 7, 10, 7, 4),
+			night5(15, 10, 15, 15, 5),
+			night6(20, 15, 18, 17, 6);
+
+void initializeOffice()
+{
+	sprOffice.setPosition({ -170.f, 0.f });
+	initTimer();
+}
 
 void Night::initNight()
 {
@@ -24,9 +31,38 @@ void Night::initNight()
 	Knight.AILEVEL = AILEVELS[3];
 }
 
-void startNight()
+void startNight(RenderWindow &window)
 {
+	initializeOffice();
+
 	game.currentNight->initNight();
+
+	int num = game.currentNight->num;
+
+	std::string title = "Night " + std::to_string(num) + "\n 12 AM";
+	Text introText(font);
+	introText.setString(title);
+	introText.setPosition({ SCREEN_WIDTH / 2.f - introText.getGlobalBounds().size.x / 2.f, SCREEN_HEIGHT / 2.f - introText.getGlobalBounds().size.y / 2.f });
+
+	Clock introClock;
+	float elapsed = 0.f;
+	while (elapsed < 6.f)
+	{
+		elapsed = introClock.getElapsedTime().asSeconds();
+
+		if (elapsed < 3.5f) //time before fade out
+		{
+			introText.setFillColor(Color(255, 255, 255, (int)(255 * std::min(elapsed, 1.f))));
+		}
+		else if (elapsed < 4.5f)
+		{
+			introText.setFillColor(Color(255, 255, 255, (int)(255 * std::max(4.5f-elapsed, 0.f)))); //fade out
+		}
+
+		window.clear();
+		window.draw(introText);
+		window.display();
+	}
 	Flowey.reset();
 	Starwalker.reset();
 	Asgore.reset();
@@ -59,11 +95,6 @@ void Game::run()
 	}
 }
 
-void initializeOffice()
-{
-	sprOffice.setPosition({-170.f, 0.f});
-	initTimer();
-}
 
 int GCount = 0;
 
@@ -84,8 +115,7 @@ GameState updateTitle(RenderWindow &window)
 	if (click)
 	{
 		sndTitle.stop();
-		initializeOffice();
-		startNight();
+		startNight(window);
 		return GameState::Office;
 	}
 	return GameState::Title;
@@ -97,6 +127,51 @@ RectangleShape boopHitbox({ 50, 50 }); //boop ralsei :3
 
 rectPoint bigDoor({ 600, 200 }, { 1035, 582 });
 rectPoint smallDoor({ 80, 487 }, { 177, 670 });
+
+GameState updateAndRenderWin(Game& game)
+{
+	static Text text(font);
+	static Clock clocky;
+	static Vector2f pos = Vector2f({ SCREEN_WIDTH / 2.f - text.getGlobalBounds().size.x / 2.f, SCREEN_HEIGHT / 2.f - text.getGlobalBounds().size.y / 2.f });
+	if (!clocky.isRunning()) clocky.start();
+
+	float elapsed = clocky.getElapsedTime().asSeconds();
+
+	if (elapsed > 10.f)
+	{
+		text.setFillColor(Color(255, 255, 255, 255)); //reset alpha
+		clocky.reset();
+		game.reset();
+		if (game.currentNight == &night1) game.currentNight = &night2;
+		else if (game.currentNight == &night2) game.currentNight = &night3;
+		else if (game.currentNight == &night3) game.currentNight = &night4;
+		else if (game.currentNight == &night4) game.currentNight = &night5;
+		else return GameState::Title;
+
+		startNight(game.getWindow());
+		return GameState::Office;
+	}
+
+	if (elapsed < 5.f)
+	{
+		text.setPosition({ pos.x + std::sin(randRange(0, 255) * 1.f), pos.y + std::cos(randRange(0, 255) * 1.f) });
+		text.setString("5:59 AM");
+	}
+	else if (elapsed < 7.f)
+	{
+		text.setPosition(pos);
+		text.setString("6:00 AM");
+	}
+	else
+	{
+		text.setFillColor(Color(255, 255, 255, (int)(255 * std::max((10.f - elapsed), 0.f)))); //fade out
+	}
+
+	game.getWindow().draw(text);
+
+	return GameState::Win;
+
+}
 
 GameState updateOffice(Game &game)
 {
@@ -195,6 +270,7 @@ void Game::update()
 	case GameState::Death:
 		deathScreen();
 		break;
+	break;
 	}
 	//update hall, im lazy to put it where im supposed to because i want this to always be updated
 	static Clock panClock;
@@ -308,9 +384,13 @@ void Game::render()
 	case GameState::Camera:
 		renderCamera(window);
 		break;
+	case GameState::Win:
+		currentState = updateAndRenderWin(game); //cannot be put in update cuz this draws and stuff, so it would get cleared before draw cuz uhhh the order is update() and then render()
+		break;
 	}
 
 	updateTimer(window);
+	waitForQuit(); //requires display stuff sooo in render
 
 	window.display();
 }
@@ -318,10 +398,8 @@ void Game::render()
 
 void Game::reset()
 {
-	currentState = GameState::Title;
 	jumpscareCulprit = 'F';
 	Flowey.reset();
 	Starwalker.reset();
 	Asgore.reset();
-	initTitle();
 }

@@ -53,10 +53,13 @@ void Game::deathScreen()
         {
             fadeClock.restart();
             reset();
+            initTitle();
+            currentState = GameState::Death;
         }
 
         window.clear();
         window.draw(sprDeath);
         window.display();
     }
+
 }
