@@ -55,6 +55,9 @@ Sprite sprDrink(t_sprDrink);
 Texture t_sprSpamton("res/img/spamton.png");
 Sprite sprSpamton(t_sprSpamton);
 
+Texture t_spr1997("res/img/1997.png");
+Sprite spr1997(t_spr1997);
+
 
 SoundBuffer sndBfrTitle("res/snd/title.wav");
 Sound sndTitle(sndBfrTitle);
@@ -100,6 +103,9 @@ Sound sndIntercepted(sndBfrIntercepted);
 
 SoundBuffer sndBfrBeep("res/snd/beep.wav");
 Sound sndBeep(sndBfrBeep);
+
+SoundBuffer sndBfrSpamton("res/snd/spamton.wav");
+Sound sndSpamton(sndBfrSpamton);
 
 
 Font font("res/fonts/PublicPixel.ttf");

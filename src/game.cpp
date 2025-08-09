@@ -159,7 +159,7 @@ GameState updateTitle(RenderWindow &window)
 		return GameState::Office;
 	}
 
-	if (isInsideRect(sixthNightButton, mousePosF))
+	if (isInsideRect(customNightButton, mousePosF))
 	{
 		sndTitle.stop();
 		return GameState::CustomNight;

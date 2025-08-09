@@ -91,10 +91,18 @@ void customNight(RenderWindow& window)
 	if (isInsideRect(rectPoint({ 1017, 622 }, { 1185, 676 }), mousePos))
 	{
 
-		if (a == 1 && b == 9 && c == 9 && d == 7)
+		if (a == 1 && b == 9 && d == 7)
 		{
-			spamton = true;
-			return;
+			if (c == 9)
+			{
+				spamton = true;
+				return;
+			}
+			else if (c==8)
+			{
+				c = 9;
+				return;
+			}
 		}
 
 		game.currentNight = &night7;
@@ -118,6 +126,8 @@ SPAMTON:
 		if (pos.x < 0) pos.x = 0;
 		if (pos.x + bounds.size.x > SCREEN_WIDTH) pos.x = SCREEN_WIDTH - bounds.size.x;
 		sprSpamton.setPosition(pos);
+
+		sndSpamton.play();
 	}
 
 	if (bounds.position.y <= 0 || bounds.position.y + bounds.size.y >= SCREEN_HEIGHT)
@@ -128,8 +138,10 @@ SPAMTON:
 		if (pos.y < 0) pos.y = 0;
 		if (pos.y + bounds.size.y > SCREEN_HEIGHT) pos.y = SCREEN_HEIGHT - bounds.size.y;
 		sprSpamton.setPosition(pos);
+
+		sndSpamton.play();
 	}
 
-
+	window.draw(spr1997);
 	window.draw(sprSpamton);
 }

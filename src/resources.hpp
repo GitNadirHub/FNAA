@@ -21,6 +21,7 @@ extern sf::Sprite sprBigDoorF;
 extern sf::Sprite sprBigDoorS;
 extern sf::Sprite sprDrink;
 extern sf::Sprite sprSpamton;
+extern sf::Sprite spr1997;
 
 
 extern sf::Sound sndTitle;
@@ -38,6 +39,7 @@ extern sf::Sound sndFnaf2Hall;
 extern sf::Sound sndBuzz;
 extern sf::Sound sndIntercepted;
 extern sf::Sound sndBeep;
+extern sf::Sound sndSpamton;
 
 extern sf::Font font;
 

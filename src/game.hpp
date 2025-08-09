@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-enum class GameState {Title, Office, Camera, Jumpscare, Death, Win, CustomNight};
+enum class GameState {Title, Office, Camera, Jumpscare, Death, Win, CustomNight, Minigame};
 
 struct Night {
 	int AILEVELS[4];
@@ -42,6 +42,7 @@ private:
 	sf::RenderWindow window;
 	void update(), render();
 	void jumpscare(), deathScreen();
+	void minigame();
 };
 
 void initTitle();
