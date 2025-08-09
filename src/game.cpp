@@ -102,24 +102,69 @@ GameState updateTitle(RenderWindow &window)
 {
 	const static float xPos = 70;
 	const static float pos1 = 412.f;
-	const static float pos2 =  470.f;
+	const static float pos2 = 484.f;
+	const static float pos3 = 540.f;
+	const static float pos4 = 592.f;
+
 
 	static float lastPos = pos1;
 
-	float posRequired = Mouse::getPosition(window).y > 470 ? pos2 : pos1;
+	static rectPoint newGameButton({ 119.f, 409.f }, { 345.f, 440.f });
+	static rectPoint continueButton({ 119.f, 460.f }, { 345.f, 507.f });
+	static rectPoint sixthNightButton({ 119.f, 518.f }, { 345.f, 562.f });
+	static rectPoint customNightButton({ 119.f, 572.f }, { 345.f, 611.f });
+
+	Vector2i mousePos = Mouse::getPosition();
+	Vector2f mousePosF = { mousePos.x * 1.f, mousePos.y * 1.f };
+
+
+	float posRequired =
+		(mousePosF.y >= customNightButton.A.y) ? pos4 :
+		(mousePosF.y >= sixthNightButton.A.y) ? pos3 :
+		(mousePosF.y >= continueButton.A.y) ? pos2 :
+		(mousePosF.y >= newGameButton.A.y) ? pos1 :
+		pos1;
+
+
 	sprSelect.setPosition({xPos, posRequired});
 	if (posRequired != lastPos)
 		sndSelect.play();
 	lastPos = posRequired;
 
-	if (click)
+	if (!click) 	return GameState::Title;
+
+
+	if (isInsideRect(newGameButton, mousePosF))
 	{
 		sndTitle.stop();
+		game.currentNight = &night1;
 		startNight(window);
 		return GameState::Office;
 	}
-	return GameState::Title;
 
+	if (isInsideRect(continueButton, mousePosF))
+	{
+		sndTitle.stop();
+		game.load();
+		if (game.currentNight->num > 5) game.currentNight = &night5;
+		startNight(window);
+		return GameState::Office;
+	}
+
+	if (isInsideRect(sixthNightButton, mousePosF))
+	{
+		sndTitle.stop();
+		game.currentNight = &night6;
+		startNight(window);
+		return GameState::Office;
+	}
+
+	if (isInsideRect(sixthNightButton, mousePosF))
+	{
+		sndTitle.stop();
+		return GameState::CustomNight;
+	}
+	return GameState::Title;
 }
 
 extern bool G;
@@ -142,6 +187,7 @@ GameState updateAndRenderWin(Game& game)
 		text.setFillColor(Color(255, 255, 255, 255)); //reset alpha
 		clocky.reset();
 		game.reset();
+		game.save();
 		if (game.currentNight == &night1) game.currentNight = &night2;
 		else if (game.currentNight == &night2) game.currentNight = &night3;
 		else if (game.currentNight == &night3) game.currentNight = &night4;
@@ -387,6 +433,8 @@ void Game::render()
 	case GameState::Win:
 		currentState = updateAndRenderWin(game); //cannot be put in update cuz this draws and stuff, so it would get cleared before draw cuz uhhh the order is update() and then render()
 		break;
+	case GameState::CustomNight:
+		customNight(window);
 	}
 
 	updateTimer(window);

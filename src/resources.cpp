@@ -52,6 +52,9 @@ Sprite sprBigDoorS(t_sprBigDoorS);
 Texture t_sprDrink("res/img/drink.png");
 Sprite sprDrink(t_sprDrink);
 
+Texture t_sprSpamton("res/img/spamton.png");
+Sprite sprSpamton(t_sprSpamton);
+
 
 SoundBuffer sndBfrTitle("res/snd/title.wav");
 Sound sndTitle(sndBfrTitle);

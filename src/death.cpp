@@ -54,7 +54,7 @@ void Game::deathScreen()
             fadeClock.restart();
             reset();
             initTitle();
-            currentState = GameState::Death;
+            currentState = GameState::Title;
         }
 
         window.clear();

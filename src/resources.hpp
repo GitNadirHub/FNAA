@@ -20,6 +20,7 @@ extern sf::Sprite sprBigDoor;
 extern sf::Sprite sprBigDoorF;
 extern sf::Sprite sprBigDoorS;
 extern sf::Sprite sprDrink;
+extern sf::Sprite sprSpamton;
 
 
 extern sf::Sound sndTitle;

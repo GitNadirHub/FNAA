@@ -5,6 +5,7 @@ using namespace std;
 
 void Game::save()
 {
+	if (currentNight->num > 5) return;
 	ofstream fout("res/save.png");
 	fout << currentNight->num;
 }
