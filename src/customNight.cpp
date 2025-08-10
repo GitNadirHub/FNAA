@@ -28,7 +28,7 @@ void customNight(RenderWindow& window)
 	static const rectPoint up3({ 835.f, yStart }, { 865.f, yEnd });
 
 	static const rectPoint down4({ 940.f, yStart }, { 970, yEnd });
-	static const rectPoint up4({ 1085.f, yStart }, { 1105, yEnd });
+	static const rectPoint up4({ 1085.f, yStart }, { 1132, yEnd });
 
 	static int a = 0, b = 0, c = 0, d = 0;
 

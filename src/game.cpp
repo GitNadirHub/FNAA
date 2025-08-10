@@ -102,9 +102,9 @@ GameState updateTitle(RenderWindow &window)
 {
 	const static float xPos = 70;
 	const static float pos1 = 412.f;
-	const static float pos2 = 484.f;
-	const static float pos3 = 540.f;
-	const static float pos4 = 592.f;
+	const static float pos2 = 470.f;
+	const static float pos3 = 523.f;
+	const static float pos4 = 578.f;
 
 
 	static float lastPos = pos1;
