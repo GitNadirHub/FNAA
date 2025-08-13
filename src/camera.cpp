@@ -40,7 +40,7 @@ void drawBedroom(RenderWindow& window)
 
 	sprBedroom.setTexture(textures[Bedroom.occupants]);
 
-	window.draw(sprBedroom);
+	window.draw(sprBedroom, &vignette);
 }
 void drawShop(RenderWindow& window)
 {
@@ -59,7 +59,7 @@ void drawShop(RenderWindow& window)
 
 	sprShop.setTexture(textures[Shop.occupants]);
 
-	window.draw(sprShop);
+	window.draw(sprShop, &vignette);
 }
 
 void drawHall(RenderWindow& window)
@@ -78,7 +78,7 @@ void drawHall(RenderWindow& window)
 
 	sprHall.setTexture(textures[occ]);
 
-	window.draw(sprHall);
+	window.draw(sprHall, &vignetteStrong);
 }
 
 void drawExterior(RenderWindow& window)
@@ -98,7 +98,7 @@ void drawExterior(RenderWindow& window)
 
 	sprExterior.setTexture(textures[Exterior.occupants]);
 
-	window.draw(sprExterior);
+	window.draw(sprExterior, &vignetteStrong);
 }
 
 void drawGarage(RenderWindow& window)
@@ -114,7 +114,7 @@ void drawGarage(RenderWindow& window)
 
 	sprGarage.setTexture(textures[Garage.occupants]);
 
-	window.draw(sprGarage);
+	window.draw(sprGarage, &vignetteStrong);
 }
 
 void drawGarden(RenderWindow& window)
@@ -134,7 +134,7 @@ void drawGarden(RenderWindow& window)
 
 	sprGarden.setTexture(textures[occ]);
 
-	window.draw(sprGarden);
+	window.draw(sprGarden, &vignetteStrong);
 }
 
 
@@ -155,7 +155,7 @@ void drawBathroom(RenderWindow& window)
 
 	sprBathroom.setTexture(textures[occ]);
 
-	window.draw(sprBathroom);
+	window.draw(sprBathroom, &vignetteStrong);
 }
 
 void drawSWRoom(RenderWindow& window)
@@ -259,10 +259,23 @@ GameState updateCamera()
 	return GameState::Camera;
 }
 
+Shader glowPulseShader; //for drinks and such
+Clock shaderClock;
+
+bool loadShader()
+{
+	glowPulseShader.loadFromFile("res/shaders/glowPulse.frag", Shader::Type::Fragment);
+	return true;
+}
+
 void renderCamera(RenderWindow& window)
 {
 	static auto lastRoom = currentRoom;
 	static auto lastOccupants = currentRoom->occupants;
+	static bool runOnce = loadShader(); //only load it once
+
+	float time = shaderClock.getElapsedTime().asSeconds();
+	glowPulseShader.setUniform("time", time);
 
 	window.draw(sprCamera);
 
@@ -276,7 +289,7 @@ void renderCamera(RenderWindow& window)
 				sprDrink.setPosition(drink.position + sprHall.getPosition());
 			else
 				sprDrink.setPosition(drink.position);
-			window.draw(sprDrink);
+			window.draw(sprDrink, &glowPulseShader);
 
 			if (click && sprDrink.getGlobalBounds().contains({ Mouse::getPosition(window).x * 1.f, Mouse::getPosition(window).y * 1.f }))
 			{

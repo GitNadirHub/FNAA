@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "game.hpp"
 #include "resources.hpp"
+#include "globals.hpp"
 using namespace sf;
 
 Clock quitClock;
@@ -26,7 +27,7 @@ bool handleQuitting()
 
 	txt.setString("Quitting" + dots);
 
-	window.draw(txt);
+	drawTextShadered(window, txt, halo);
 
 	if (elapsed > 3.1f)
 	{

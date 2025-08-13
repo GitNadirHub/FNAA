@@ -22,6 +22,8 @@ extern sf::Sprite sprBigDoorS;
 extern sf::Sprite sprDrink;
 extern sf::Sprite sprSpamton;
 extern sf::Sprite spr1997;
+extern sf::Sprite sprSoul;
+extern sf::Sprite sprKrisRoom;
 
 
 extern sf::Sound sndTitle;

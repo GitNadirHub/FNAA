@@ -58,6 +58,12 @@ Sprite sprSpamton(t_sprSpamton);
 Texture t_spr1997("res/img/1997.png");
 Sprite spr1997(t_spr1997);
 
+Texture t_sprSoul("res/img/soul.png");
+Sprite sprSoul(t_sprSoul);
+
+Texture t_sprKrisRoom("res/img/kris_room.png");
+Sprite sprKrisRoom(t_sprKrisRoom);
+
 
 SoundBuffer sndBfrTitle("res/snd/title.wav");
 Sound sndTitle(sndBfrTitle);

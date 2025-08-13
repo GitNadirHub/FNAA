@@ -21,3 +21,5 @@ extern bool isInsideRect(const rectPoint& rect, const sf::Vector2f& P);
 extern int randRange(int min, int max), FUN;
 
 extern bool floweySmallDoor, floweyBigDoor, click, starwalkerBigDoor;
+
+extern void drawTextShadered(sf::RenderWindow& window, sf::Text& text, sf::Shader& shader);

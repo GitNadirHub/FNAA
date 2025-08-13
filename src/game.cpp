@@ -9,6 +9,12 @@
 
 using namespace sf;
 
+Shader vignette;
+Shader vignetteStrong;
+Shader bloom;
+Shader halo;
+
+
 //Night		night1(20, 20, 20, 20, 1),
 Night		night1(3, 0, 1, 0, 1),
 			night2(5, 2, 0, 0, 2),
@@ -60,7 +66,7 @@ void startNight(RenderWindow &window)
 		}
 
 		window.clear();
-		window.draw(introText);
+		drawTextShadered(window, introText, halo);
 		window.display();
 	}
 	Flowey.reset();
@@ -344,6 +350,13 @@ void Game::update()
 
 void renderTitle(RenderWindow &window)
 {
+	static IntRect full({ 0, 0}, {SCREEN_WIDTH, SCREEN_HEIGHT});
+	sprTitle.setTextureRect(full);
+	sprTitle.setPosition({ 0 , 0 });
+	window.draw(sprTitle, &bloom);
+	static IntRect rightHalf({ SCREEN_WIDTH / 2-30, 0 }, { SCREEN_WIDTH / 2 +30, SCREEN_HEIGHT});
+	sprTitle.setTextureRect(rightHalf);
+	sprTitle.setPosition({ SCREEN_WIDTH / 2 -30 , 0 });
 	window.draw(sprTitle);
 	window.draw(sprSelect);
 }
@@ -361,7 +374,7 @@ void renderOffice(RenderWindow &window)
 	else if (&sprOffice.getTexture() != &t_sprOffice) sprOffice.setTexture(t_sprOffice);
 
 
-	window.draw(sprOffice);
+	window.draw(sprOffice, &vignette);
 	if (!Mouse::isButtonPressed(Mouse::Button::Left))
 	{
 		Flowey.isFlashed = false;
@@ -435,6 +448,10 @@ void Game::render()
 		break;
 	case GameState::CustomNight:
 		customNight(window);
+		break;
+	case GameState::Minigame:
+		minigame();
+		break;
 	}
 
 	updateTimer(window);

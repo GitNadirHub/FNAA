@@ -3,6 +3,11 @@
 
 enum class GameState {Title, Office, Camera, Jumpscare, Death, Win, CustomNight, Minigame};
 
+extern sf::Shader vignette;
+extern sf::Shader vignetteStrong;
+extern sf::Shader bloom;
+extern sf::Shader halo;
+
 struct Night {
 	int AILEVELS[4];
 	void initNight();
@@ -32,12 +37,12 @@ public:
 	void close();
 	char jumpscareCulprit = 'F';
 	GameState currentState = GameState::Title;
+	//GameState currentState = GameState::Minigame;
 	//GameState currentState = GameState::CustomNight;
 	void reset();
 	void save();
 	void load();
 	sf::RenderWindow& getWindow() { return window; }
-
 private:
 	sf::RenderWindow window;
 	void update(), render();

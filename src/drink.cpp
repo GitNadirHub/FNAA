@@ -15,7 +15,6 @@ Drink drinks[7];
 Room* getRandomRoom()
 {
 	//return &Bedroom; //debug
-	// choose randomly from Exterior, Shop, Bedroom, Hall, Garden, Bathroom
 	static Room* possibleRooms[6] = {&Exterior, &Shop, &Bedroom, &Hall, &Garden, &Bathroom};
 
 	if (!Asgore.location)

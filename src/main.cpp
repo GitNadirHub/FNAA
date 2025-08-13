@@ -9,6 +9,10 @@ Game game;
 
 int main()
 {
+	vignette.loadFromFile("res/shaders/vignette.frag", sf::Shader::Type::Fragment);
+	vignetteStrong.loadFromFile("res/shaders/vignetteStrong.frag", sf::Shader::Type::Fragment);
+	bloom.loadFromFile("res/shaders/bloom.frag", sf::Shader::Type::Fragment);
+	halo.loadFromFile("res/shaders/halo.frag", sf::Shader::Type::Fragment);
     game.initialize();
 }
 
@@ -49,14 +53,13 @@ void updateTimer(sf::RenderWindow &window)
 	{
 		game.currentState = GameState::Win;
 	}
-	window.draw(hourText);
+	drawTextShadered(window, hourText, halo);
 
-	std::string drunkString = "Drinks absored by Asgore: " + std::to_string(Asgore.consumed) + "/7";
+	std::string drunkString = "Drinks absorbed by Asgore: " + std::to_string(Asgore.consumed) + "/7";
 
 	drunkText.setString(drunkString);
 
-	window.draw(drunkText);
-
+	drawTextShadered(window, drunkText, halo);
 
 }
 
