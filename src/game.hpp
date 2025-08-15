@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-enum class GameState {Title, Office, Camera, Jumpscare, Death, Win, CustomNight, Minigame};
+enum class GameState {Title, Office, Camera, Jumpscare, Death, Win, CustomNight, Minigame, Credits};
 
 extern sf::Shader vignette;
 extern sf::Shader vignetteStrong;
@@ -20,6 +20,9 @@ struct Night {
 		this->num = num;
 	}
 	int num = 0; //for display and cleaner logic
+
+	bool callPlayed = false;
+
 };
 
 extern Night night1, 
@@ -37,6 +40,7 @@ public:
 	void close();
 	char jumpscareCulprit = 'F';
 	GameState currentState = GameState::Title;
+	//GameState currentState = GameState::Credits;
 	//GameState currentState = GameState::Minigame;
 	//GameState currentState = GameState::CustomNight;
 	void reset();
@@ -48,6 +52,8 @@ private:
 	void update(), render();
 	void jumpscare(), deathScreen();
 	void minigame();
+	void handleCalls();
+	void handleCredits();
 };
 
 void initTitle();

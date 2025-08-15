@@ -31,7 +31,7 @@ void drawTextShadered(sf::RenderWindow& window, sf::Text &text, sf::Shader& shad
     FloatRect bounds = text.getLocalBounds();
     Vector2f textOgPos = text.getPosition(); //render textures use a different coordinate system
     text.setPosition({ 0.f, 0.f });
-    Vector2u size = {(unsigned) bounds.size.x, (unsigned)bounds.size.y + 50 };
+    Vector2u size = {(unsigned) bounds.size.x + 50, (unsigned)bounds.size.y + 50 };
     RenderTexture rt(size);
     rt.clear(Color::Transparent);
     rt.draw(text); //draw the text to the render texture at 0, 0

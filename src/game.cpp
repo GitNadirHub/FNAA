@@ -18,8 +18,8 @@ Shader halo;
 //Night		night1(20, 20, 20, 20, 1),
 Night		night1(3, 0, 1, 0, 1),
 			night2(5, 2, 0, 0, 2),
-			night3(7, 5, 7, 2, 3),
-			night4(10, 7, 10, 7, 4),
+			night3(7, 3, 5, 2, 3),
+			night4(10, 5, 10, 7, 4),
 			night5(15, 10, 15, 15, 5),
 			night6(20, 15, 18, 17, 6);
 
@@ -87,7 +87,7 @@ void Game::initialize()
 		State::Fullscreen);
 	window.setFramerateLimit(144);
 	sprDrink.setScale({ 0.1f, 0.1f });
-	initTitle();
+	if (currentState  == GameState::Title) initTitle();
 	sndBuzz.setVolume(30.f);
 	run();
 }
@@ -198,6 +198,7 @@ GameState updateAndRenderWin(Game& game)
 		else if (game.currentNight == &night2) game.currentNight = &night3;
 		else if (game.currentNight == &night3) game.currentNight = &night4;
 		else if (game.currentNight == &night4) game.currentNight = &night5;
+		else if (game.currentNight == &night5) return GameState::Credits;
 		else return GameState::Title;
 
 		startNight(game.getWindow());
@@ -358,7 +359,7 @@ void renderTitle(RenderWindow &window)
 	sprTitle.setTextureRect(rightHalf);
 	sprTitle.setPosition({ SCREEN_WIDTH / 2 -30 , 0 });
 	window.draw(sprTitle);
-	window.draw(sprSelect);
+	window.draw(sprSelect, &bloom);
 }
 
 
@@ -374,7 +375,7 @@ void renderOffice(RenderWindow &window)
 	else if (&sprOffice.getTexture() != &t_sprOffice) sprOffice.setTexture(t_sprOffice);
 
 
-	window.draw(sprOffice, &vignette);
+	window.draw(sprOffice);
 	if (!Mouse::isButtonPressed(Mouse::Button::Left))
 	{
 		Flowey.isFlashed = false;
@@ -439,9 +440,11 @@ void Game::render()
 		break;
 	case GameState::Office:
 		renderOffice(window);
+		handleCalls();
 		break;
 	case GameState::Camera:
 		renderCamera(window);
+		handleCalls();
 		break;
 	case GameState::Win:
 		currentState = updateAndRenderWin(game); //cannot be put in update cuz this draws and stuff, so it would get cleared before draw cuz uhhh the order is update() and then render()
@@ -451,6 +454,9 @@ void Game::render()
 		break;
 	case GameState::Minigame:
 		minigame();
+		break;
+	case GameState::Credits:
+		handleCredits();
 		break;
 	}
 

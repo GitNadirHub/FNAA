@@ -320,9 +320,13 @@ void AsgoreStruct::update()
 
     if (spawnClock.getElapsedTime().asSeconds() >= spawnInterval)
     {
-        spawnDrink();
+		int chance = 30 + AILEVEL * 5;
+		if (randRange(1, 100) <= chance)
+		{
+			spawnDrink();
+		}
         spawnClock.restart();
-        spawnInterval = randRange(3, 10);
+        spawnInterval = randRange(2, 10);
     }
 
     auto ID = location->id;

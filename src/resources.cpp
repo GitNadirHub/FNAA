@@ -113,5 +113,4 @@ Sound sndBeep(sndBfrBeep);
 SoundBuffer sndBfrSpamton("res/snd/spamton.wav");
 Sound sndSpamton(sndBfrSpamton);
 
-
 Font font("res/fonts/PublicPixel.ttf");
