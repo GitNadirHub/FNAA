@@ -98,11 +98,16 @@ void customNight(RenderWindow& window)
 				spamton = true;
 				return;
 			}
-			else if (c==8)
+			else if (c == 8)
 			{
 				c = 9;
 				return;
 			}
+		}
+		else if (a == 1 && b == 2 && c == 2 && d == 5)
+		{
+			game.currentState = GameState::Minigame;
+			return;
 		}
 
 		game.currentNight = &night7;

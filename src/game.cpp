@@ -221,7 +221,7 @@ GameState updateAndRenderWin()
 		text.setFillColor(Color(255, 255, 255, (int)(255 * std::max((10.f - elapsed), 0.f)))); //fade out
 	}
 
-	game.getWindow().draw(text);
+	drawTextShadered(game.getWindow(), text, halo);
 
 	return GameState::Win;
 

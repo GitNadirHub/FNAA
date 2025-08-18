@@ -264,12 +264,12 @@ void AsgoreStruct::update()
 {
     float elapsed = clock.getElapsedTime().asSeconds();
 	
-	if (hour <= 3 && game.currentNight->num <= 1)
+	if (hour < 3 && game.currentNight->num <= 1)
 	{
 		clock.restart();
 		return;
 	}
-	else if (hour <= 2 && game.currentNight->num == 2)
+	else if (hour < 2 && game.currentNight->num == 2)
 	{
 		clock.restart();
 		return;
