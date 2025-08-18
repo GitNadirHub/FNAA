@@ -15,7 +15,17 @@ void ambienceSound()
 	ambienceClock.restart();
 	ambienceTime = randRange(10, 30);
 
-	int id = randRange(0, 0);
-	static Sound sounds[1] = { sndEerie };
+	int id = randRange(0, 8);
+    static sf::Sound sounds[] = {
+       sndEerie,
+        sndCave,
+        sndLaugh,
+        sndCave2,
+        sndCave3,
+        sndGrass,
+        sndStep,
+        sndSpamton,
+        sndFleeFlee
+    };
 	sounds[id].play();
 }

@@ -43,6 +43,16 @@ extern sf::Sound sndBuzz;
 extern sf::Sound sndIntercepted;
 extern sf::Sound sndBeep;
 extern sf::Sound sndSpamton;
+extern sf::Sound sndCheer;
+extern sf::Sound sndFriend;
+extern sf::Sound sndCredits;
+extern sf::Sound sndCave; //from here down, ambience
+extern sf::Sound sndLaugh;
+extern sf::Sound sndCave2;
+extern sf::Sound sndCave3;
+extern sf::Sound sndGrass;
+extern sf::Sound sndStep;
+extern sf::Sound sndFleeFlee;
 
 extern sf::Font font;
 

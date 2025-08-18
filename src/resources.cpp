@@ -116,4 +116,35 @@ Sound sndBeep(sndBfrBeep);
 SoundBuffer sndBfrSpamton("res/snd/spamton.wav");
 Sound sndSpamton(sndBfrSpamton);
 
+SoundBuffer sndBfrFriend("res/snd/friend.wav");
+Sound sndFriend(sndBfrFriend);
+
+SoundBuffer sndBfrCheer("res/snd/cheer.wav");
+Sound sndCheer(sndBfrCheer);
+
+SoundBuffer sndBfrCredits("res/snd/credits.wav");
+Sound sndCredits(sndBfrCredits);
+
+sf::SoundBuffer sndBfrCave("res/snd/cave.wav");
+sf::Sound sndCave(sndBfrCave);
+
+sf::SoundBuffer sndBfrLaugh("res/snd/laugh.wav");
+sf::Sound sndLaugh(sndBfrLaugh);
+
+sf::SoundBuffer sndBfrCave2("res/snd/cave2.wav");
+sf::Sound sndCave2(sndBfrCave2);
+
+sf::SoundBuffer sndBfrCave3("res/snd/cave3.wav");
+sf::Sound sndCave3(sndBfrCave3);
+
+sf::SoundBuffer sndBfrGrass("res/snd/grass.wav");
+sf::Sound sndGrass(sndBfrGrass);
+
+sf::SoundBuffer sndBfrStep("res/snd/step.wav");
+sf::Sound sndStep(sndBfrStep);
+
+sf::SoundBuffer sndBfrFleeFlee("res/snd/fleeflee.wav");
+sf::Sound sndFleeFlee(sndBfrFleeFlee);
+
+
 Font font("res/fonts/PublicPixel.ttf");

@@ -60,8 +60,13 @@ void setCreditBlock(int index)
     }
 }
 
+bool sung = false;
+
 void Game::handleCredits()
 {
+
+    if (!sung) sndCredits.play(), sung = true;
+
     timer += deltaTime;
 
     float alpha = 255.f;
@@ -83,6 +88,7 @@ void Game::handleCredits()
             if (currentBlock >= creditBlocks.size())
             {
                 currentState = GameState::Title;
+                sung = false;
                 initTitle();
             }
             else

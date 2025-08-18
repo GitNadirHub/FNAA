@@ -20,8 +20,8 @@ Night		night1(3, 0, 1, 0, 1),
 			night2(5, 2, 0, 0, 2),
 			night3(7, 3, 5, 2, 3),
 			night4(10, 5, 10, 7, 4),
-			night5(15, 10, 15, 15, 5),
-			night6(20, 15, 18, 17, 6);
+			night5(10, 5, 10, 10, 5),
+			night6(20, 10, 15, 15, 6);
 
 void initializeOffice()
 {
@@ -119,6 +119,7 @@ GameState updateTitle(RenderWindow &window)
 	static rectPoint continueButton({ 119.f, 460.f }, { 345.f, 507.f });
 	static rectPoint sixthNightButton({ 119.f, 518.f }, { 345.f, 562.f });
 	static rectPoint customNightButton({ 119.f, 572.f }, { 345.f, 611.f });
+	static rectPoint creditsButton({ 0.f, 0.f }, { 72.f, 28.f });
 
 	Vector2i mousePos = Mouse::getPosition();
 	Vector2f mousePosF = { mousePos.x * 1.f, mousePos.y * 1.f };
@@ -139,10 +140,17 @@ GameState updateTitle(RenderWindow &window)
 
 	if (!click) 	return GameState::Title;
 
+	if (isInsideRect(creditsButton, mousePosF))
+	{
+		sndTitle.stop();
+		return GameState::Credits;
+	}
+
 
 	if (isInsideRect(newGameButton, mousePosF))
 	{
 		sndTitle.stop();
+		sndFriend.play();
 		game.currentNight = &night1;
 		startNight(window);
 		return GameState::Office;
@@ -213,6 +221,7 @@ GameState updateAndRenderWin()
 	}
 	else if (elapsed < 7.f)
 	{
+		if (sndCheer.getStatus()!=Sound::Status::Playing) sndCheer.play();
 		text.setPosition(pos);
 		text.setString("6:00 AM");
 	}
@@ -322,6 +331,7 @@ void Game::update()
 		jumpscare();
 		break;
 	case GameState::Death:
+		handleCalls();
 		deathScreen();
 		break;
 	break;

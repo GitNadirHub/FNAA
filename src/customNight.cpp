@@ -30,6 +30,8 @@ void customNight(RenderWindow& window)
 	static const rectPoint down4({ 940.f, yStart }, { 970, yEnd });
 	static const rectPoint up4({ 1085.f, yStart }, { 1132, yEnd });
 
+	static rectPoint titleButton({ 0.f, 0.f }, { 72.f, 28.f });
+
 	static int a = 0, b = 0, c = 0, d = 0;
 
 	Vector2i mousePosI = Mouse::getPosition();
@@ -82,6 +84,13 @@ void customNight(RenderWindow& window)
 
 	//not too elegant but it's just 4 buttons
 
+	if (isInsideRect(titleButton, mousePos))
+
+	{
+		initTitle();
+		game.currentState = GameState::Title;
+		return;
+	}
 	night7.AILEVELS[0] = a;
 	night7.AILEVELS[1] = b;
 	night7.AILEVELS[2] = c;
