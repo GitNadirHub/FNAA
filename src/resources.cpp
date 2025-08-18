@@ -64,6 +64,9 @@ Sprite sprSoul(t_sprSoul);
 Texture t_sprKrisRoom("res/img/kris_room.png");
 Sprite sprKrisRoom(t_sprKrisRoom);
 
+Texture t_sprNiko("res/img/niko.png");
+Sprite sprNiko(t_sprNiko);
+
 
 SoundBuffer sndBfrTitle("res/snd/title.wav");
 Sound sndTitle(sndBfrTitle);

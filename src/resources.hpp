@@ -24,6 +24,7 @@ extern sf::Sprite sprSpamton;
 extern sf::Sprite spr1997;
 extern sf::Sprite sprSoul;
 extern sf::Sprite sprKrisRoom;
+extern sf::Sprite sprNiko;
 
 
 extern sf::Sound sndTitle;

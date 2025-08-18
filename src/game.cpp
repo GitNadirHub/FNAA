@@ -179,7 +179,7 @@ RectangleShape boopHitbox({ 50, 50 }); //boop ralsei :3
 rectPoint bigDoor({ 600, 200 }, { 1035, 582 });
 rectPoint smallDoor({ 80, 487 }, { 177, 670 });
 
-GameState updateAndRenderWin(Game& game)
+GameState updateAndRenderWin()
 {
 	static Text text(font);
 	static Clock clocky;
@@ -193,13 +193,14 @@ GameState updateAndRenderWin(Game& game)
 		text.setFillColor(Color(255, 255, 255, 255)); //reset alpha
 		clocky.reset();
 		game.reset();
-		game.save();
 		if (game.currentNight == &night1) game.currentNight = &night2;
 		else if (game.currentNight == &night2) game.currentNight = &night3;
 		else if (game.currentNight == &night3) game.currentNight = &night4;
 		else if (game.currentNight == &night4) game.currentNight = &night5;
 		else if (game.currentNight == &night5) return GameState::Credits;
 		else return GameState::Title;
+
+		game.save(); //save after the night is set to new night
 
 		startNight(game.getWindow());
 		return GameState::Office;
@@ -447,7 +448,7 @@ void Game::render()
 		handleCalls();
 		break;
 	case GameState::Win:
-		currentState = updateAndRenderWin(game); //cannot be put in update cuz this draws and stuff, so it would get cleared before draw cuz uhhh the order is update() and then render()
+		currentState = updateAndRenderWin(); //cannot be put in update cuz this draws and stuff, so it would get cleared before draw cuz uhhh the order is update() and then render()
 		break;
 	case GameState::CustomNight:
 		customNight(window);
@@ -457,6 +458,9 @@ void Game::render()
 		break;
 	case GameState::Credits:
 		handleCredits();
+		break;
+	case GameState::Warning:
+		warning();
 		break;
 	}
 

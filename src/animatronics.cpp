@@ -21,6 +21,12 @@ void FloweyStruct::update()
 {
 	float elapsed = clock.getElapsedTime().asSeconds();
 
+	if (hour <= 2 && game.currentNight->num <= 3)
+	{
+		clock.restart();
+		return;
+	}
+
 	if (location == &You)
 	{
 		if (!totalClock.isRunning())
@@ -90,7 +96,7 @@ void FloweyStruct::update()
 		{
 			if (location == &Bedroom)
 			{
-				if (randRange(0, 1) == 0)
+				if (randRange(0, 3) == 0)
 				{
 					location = &You;
 					floweySmallDoor = true;
@@ -257,7 +263,17 @@ void StarwalkerStruct::reset()
 void AsgoreStruct::update()
 {
     float elapsed = clock.getElapsedTime().asSeconds();
-
+	
+	if (hour <= 3 && game.currentNight->num <= 1)
+	{
+		clock.restart();
+		return;
+	}
+	else if (hour <= 2 && game.currentNight->num == 2)
+	{
+		clock.restart();
+		return;
+	}
     static Room* possibleRooms[7] = { &Bedroom, &Shop, &Hall, &Garden, &Bathroom, &Exterior, &Garage };
 
 	if (attackMode)

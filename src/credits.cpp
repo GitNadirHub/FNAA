@@ -12,12 +12,12 @@ vector<string> creditBlocks = {
     "A game by\nNadir",
     "Deltarune and Undertale\nby Toby Fox",
     "Five Nights at Freddy's\nby Scott Cawthon",
-    "Asgore runs over Dess (with lyrics)\nby Bub8les, KennyTheLyr1c1st,\n zebuez, MythicApex",
+    "Asgore runs over Dess (with lyrics)\nby Bub8les, KennyTheLyr1c1st",
     "The Original Starwalker\nOriginal VA: yesto690",
     "Bugs you may encounter:\nChara",
     "Singing this song - ???",
     "Cast:\nTogore Dreemurr - Togore Dreemurr\nPapyrus - Brian\nAsgore Deltarune - Asgore Undertale\nStarwalker - Starwalker",
-    "PLAYTESTERS:\n",
+    "PLAYTESTERS:\ndadanti360\nInfinit Ninja\nMist\nMrStoica\n(Thanks a lot guys :D)",
     "Thanks for playing! <3"
 };
 
