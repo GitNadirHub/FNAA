@@ -34,8 +34,8 @@ void customNight(RenderWindow& window)
 
 	static int a = 0, b = 0, c = 0, d = 0;
 
-	Vector2i mousePosI = Mouse::getPosition();
-	Vector2f mousePos = { mousePosI.x * 1.f, mousePosI.y * 1.f };
+	Vector2i mousePosI = Mouse::getPosition(window);
+	Vector2f mousePos = window.mapPixelToCoords(mousePosI);
 
 	auto wrapValue = [](int v) {
 		if (v > 20) return 0;
@@ -70,6 +70,8 @@ void customNight(RenderWindow& window)
 
 	if (!click) return;
 
+	int val = a + b + c + d;
+
 	if (isInsideRect(down1, mousePos)) a--;
 	if (isInsideRect(up1, mousePos)) a++;
 
@@ -84,9 +86,13 @@ void customNight(RenderWindow& window)
 
 	//not too elegant but it's just 4 buttons
 
+	if (a + b + c + d != val) //if change happend
+		sndSelect.play();
+
 	if (isInsideRect(titleButton, mousePos))
 
 	{
+		sndSelect.play();
 		initTitle();
 		game.currentState = GameState::Title;
 		return;

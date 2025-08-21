@@ -48,7 +48,7 @@ void Game::warning()
 		return;
 	}
 
-    if (elapsed > 12.5f)
+    if (elapsed > 12.5f || Keyboard::isKeyPressed(Keyboard::Key::F9))
     {
         currentState = GameState::Title;
         initTitle();
@@ -64,7 +64,7 @@ void Game::warning()
 
     /// TEXT STUFF >:3
     
-    static std::string finalText = "Warning!\nThe following game\ncontains loud noises,\nflashing lights\nand jumpscares.\nThis game\nmight be spoopy...\n \nHave fun! :p";
+    static std::string finalText = "Warning!\nThe following game\ncontains loud noises,\nflashing lights\nand jumpscares.\nThis game\nmight be spoopy...\n \nHave fun! :p\n";
 
     static const float delay = 0.060f; // 60 ms per char
     float typingTime = elapsed - 2; // 2 is the start of all this so yeh

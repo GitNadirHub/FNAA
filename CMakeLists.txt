@@ -12,8 +12,29 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main src/main.cpp
-                    src/game.cpp "src/resources.cpp" "src/globals.cpp" "src/camera.cpp" "src/jumpscare.cpp" "src/animator.cpp" "src/death.cpp" "src/animatronics.cpp" "src/sound.cpp" "src/drink.cpp" "src/static.cpp" "src/quitting.cpp" "src/saveAndLoad.cpp" "src/customNight.cpp"  "src/minigame.cpp" "src/calls.cpp" "src/credits.cpp" "src/warning.cpp")
+add_executable(main
+    src/main.cpp
+    src/game.cpp
+    src/resources.cpp
+    src/globals.cpp
+    src/camera.cpp
+    src/jumpscare.cpp
+    src/animator.cpp
+    src/death.cpp
+    src/animatronics.cpp
+    src/sound.cpp
+    src/drink.cpp
+    src/static.cpp
+    src/quitting.cpp
+    src/saveAndLoad.cpp
+    src/customNight.cpp
+    src/minigame.cpp
+    src/calls.cpp
+    src/credits.cpp
+    src/warning.cpp
+)
+
+set_target_properties(main PROPERTIES WIN32_EXECUTABLE TRUE)
+
 target_compile_features(main PRIVATE cxx_std_17)
-target_link_libraries(main PRIVATE SFML::Graphics 
-                                   SFML::Audio)
+target_link_libraries(main PRIVATE SFML::Graphics SFML::Audio)

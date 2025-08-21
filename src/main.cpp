@@ -5,6 +5,19 @@
 #include <string>
 #include "animatronics.hpp"
 
+
+#ifdef _WIN32
+#include <windows.h>
+
+int main();
+
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+	return main();
+}
+#endif
+
+
+
 Game game;
 
 int main()
@@ -62,4 +75,3 @@ void updateTimer(sf::RenderWindow &window)
 	drawTextShadered(window, drunkText, halo);
 
 }
-

@@ -48,6 +48,10 @@ public:
 	void reset();
 	void save();
 	void load();
+	void toggleFullscreen();
+
+	sf::View view = sf::View(sf::FloatRect({ 0.f, 0.f }, { 1280.f, 720.f }));
+
 	sf::RenderWindow& getWindow() { return window; }
 private:
 	sf::RenderWindow window;

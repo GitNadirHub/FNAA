@@ -9,6 +9,8 @@
 
 using namespace sf;
 
+SoundBuffer sndBfrCooking("res/snd/cooking.wav");
+Sound sndCooking(sndBfrCooking);
 
 Room Garage(0), Exterior(1), Shop(2), Bedroom(3), Hall(4), Garden(5), Bathroom(6), SWRoom(7), You(8);
 
@@ -220,8 +222,8 @@ bool G = false;
 
 GameState updateCamera()
 {
-	Vector2i mousePos = Mouse::getPosition();
-	Vector2f mousePosF = { mousePos.x * 1.f, mousePos.y * 1.f };
+	Vector2i mousePos = Mouse::getPosition(game.getWindow());
+	Vector2f mousePosF = game.getWindow().mapPixelToCoords(mousePos);
 
 	static rectPoint lancerBounds({ 1150.f, 600 }, { SCREEN_WIDTH, SCREEN_HEIGHT });
 
@@ -253,6 +255,8 @@ GameState updateCamera()
 	if (game.currentState != GameState::Camera)
 	{
 		sndStatic.stop();
+		sndCooking.pause();
+		sndIntercepted.stop();
 		return game.currentState;
 	}
 	ambienceSound();
@@ -267,6 +271,7 @@ bool loadShader()
 	glowPulseShader.loadFromFile("res/shaders/glowPulse.frag", Shader::Type::Fragment);
 	return true;
 }
+
 
 void renderCamera(RenderWindow& window)
 {
@@ -321,9 +326,6 @@ void renderCamera(RenderWindow& window)
 
 	lastRoom = currentRoom;
 	lastOccupants = currentRoom->occupants;
-
-	static SoundBuffer sndBfrCooking("res/snd/cooking.wav");
-	static Sound sndCooking(sndBfrCooking);
 
 	if (currentRoom == &SWRoom)
 	{

@@ -20,7 +20,7 @@ Night		night1(3, 0, 1, 0, 1),
 			night2(5, 2, 0, 0, 2),
 			night3(7, 3, 5, 2, 3),
 			night4(10, 5, 10, 7, 4),
-			night5(10, 5, 10, 10, 5),
+			night5(10, 10, 10, 10, 5),
 			night6(20, 10, 15, 15, 6);
 
 void initializeOffice()
@@ -81,11 +81,82 @@ void initTitle()
 	sndTitle.play();
 }
 
+void handleScreensize()
+{
+	static bool pressedLastFrame = false;
+
+	bool pressed = Keyboard::isKeyPressed(Keyboard::Key::F11) || Keyboard::isKeyPressed(Keyboard::Key::F4) || Keyboard::isKeyPressed(Keyboard::Key::F);
+
+	if (pressed && !pressedLastFrame)
+		game.toggleFullscreen();
+	pressedLastFrame = pressed;
+}
+
+
+void Game::toggleFullscreen()
+{
+	static bool fullscreen = false;
+	fullscreen = !fullscreen;
+
+	window.close();
+
+	if (fullscreen)
+	{
+		auto desktop = VideoMode::getDesktopMode();
+		window.create(
+			desktop,
+			"Five Nights at Asgore's",
+			sf::Style::None
+		);
+
+		float windowRatio = (float)desktop.size.x / (float)desktop.size.y;
+		float targetRatio = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
+
+		FloatRect viewport;
+
+		if (windowRatio > targetRatio)
+		{
+			float scale = (float)desktop.size.x / (float)SCREEN_HEIGHT;
+			float width = (SCREEN_WIDTH * scale) / (float)desktop.size.y;
+            viewport = FloatRect(Vector2f((1.f - width) / 2.f, 0.f), Vector2f(width, 1.f));
+		}
+		else
+		{
+			float scale = (float)desktop.size.x / (float)SCREEN_WIDTH;
+			float height = (SCREEN_HEIGHT * scale) / (float)desktop.size.y;
+			viewport = FloatRect(Vector2f(0.f, (1.f - height) / 2.f), Vector2f(1.f, height));
+		}
+
+		view.setViewport(viewport);
+		window.setView(view);
+	}
+	else
+	{
+		window.create(
+			sf::VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }),
+			"Five Nights at Asgore's",
+			sf::Style::Titlebar | sf::Style::Close
+		);
+		FloatRect viewport = FloatRect(Vector2f(0.f, 0.f), Vector2f(1, 1.f));
+		view.setViewport(viewport);
+		window.setView(view);
+	}
+
+	window.setFramerateLimit(144);
+}
+
+
 void Game::initialize()
 {
+	//window = RenderWindow(VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), "Five Nights at Asgore's (because Flower King does not sound as good, I think. It also made the title too long... but now it's even longer because of this explanation...)",
+		//State::Fullscreen);
 	window = RenderWindow(VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), "Five Nights at Asgore's (because Flower King does not sound as good, I think. It also made the title too long... but now it's even longer because of this explanation...)",
-		State::Fullscreen);
+		 sf::Style::Titlebar | sf::Style::Close);
 	window.setFramerateLimit(144);
+	window.setView(view);
+
+	window.setIcon(Image("res/img/icon.png"));
+
 	sprDrink.setScale({ 0.1f, 0.1f });
 	if (currentState  == GameState::Title) initTitle();
 	sndBuzz.setVolume(30.f);
@@ -121,8 +192,8 @@ GameState updateTitle(RenderWindow &window)
 	static rectPoint customNightButton({ 119.f, 572.f }, { 345.f, 611.f });
 	static rectPoint creditsButton({ 0.f, 0.f }, { 72.f, 28.f });
 
-	Vector2i mousePos = Mouse::getPosition();
-	Vector2f mousePosF = { mousePos.x * 1.f, mousePos.y * 1.f };
+	Vector2i mousePos = Mouse::getPosition(window);
+	Vector2f mousePosF = window.mapPixelToCoords(mousePos);
 
 
 	float posRequired =
@@ -250,15 +321,15 @@ GameState updateOffice(Game &game)
 	if (game.currentState != GameState::Office)
 		return game.currentState;
 	static float scrollSpeed = 1000.f;
-	Vector2i mousePos = Mouse::getPosition();
-	Vector2f mousePosF = { mousePos.x*1.f, mousePos.y*1.f };
-	if (mousePos.x < 400)
+	Vector2i mousePos = Mouse::getPosition(game.getWindow());
+	Vector2f mousePosF = game.getWindow().mapPixelToCoords(mousePos);
+	if (mousePosF.x < 400)
 	{
 		Vector2f pos = sprOffice.getPosition();
 		pos.x = std::min(pos.x + scrollSpeed*deltaTime, 0.f);
 		sprOffice.setPosition(pos);
 	}
-	else if (mousePos.x > SCREEN_WIDTH - 400)
+	else if (mousePosF.x > SCREEN_WIDTH - 400)
 	{
 		Vector2f pos = sprOffice.getPosition();
 		pos.x = std::max(pos.x - scrollSpeed*deltaTime, SCREEN_WIDTH - 1600.f);
@@ -283,7 +354,6 @@ GameState updateOffice(Game &game)
 	sprBigDoorF.setPosition(bigDoorPos);
 	sprBigDoorS.setPosition(bigDoorPos);
 
-
 	if (click && isInsideRect(cameraBounds, mousePosF))
 	{
 		G = false;
@@ -302,13 +372,15 @@ float deltaTime = 1;
 
 void Game::update()
 {
+	handleScreensize();
+
 	deltaTime = deltaClock.restart().asSeconds();
 	click = false;
 	while (const std::optional event = window.pollEvent())
 	{
 		if (event->is<sf::Event::Closed>())
 		{
-			window.close();
+			game.close();
 		}
 		if (event->is<Event::MouseButtonPressed>())
 		{
@@ -394,8 +466,8 @@ void renderOffice(RenderWindow &window)
 		sndBuzz.stop();
 		return;
 	}
-	Vector2i mousePos = Mouse::getPosition(window);
-	Vector2f mousePosF = { mousePos.x * 1.f, mousePos.y * 1.f };
+	Vector2i mousePos = Mouse::getPosition(game.getWindow());
+	Vector2f mousePosF = game.getWindow().mapPixelToCoords(mousePos);
 	if (isInsideRect(smallDoor, mousePosF))
 	{
 		if (sndBuzz.getStatus() != Sound::Status::Playing) sndBuzz.play();

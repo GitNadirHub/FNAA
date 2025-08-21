@@ -17,7 +17,7 @@ vector<string> creditBlocks = {
     "Bugs you may encounter:\nChara",
     "Singing this song - ???",
     "Cast:\nTogore Dreemurr - Togore Dreemurr\nPapyrus - Brian\nAsgore Deltarune - Asgore Undertale\nStarwalker - Starwalker",
-    "PLAYTESTERS:\ndadanti360\nInfinit Ninja\nMist\nMrStoica\n(Thanks a lot guys :D)",
+    "PLAYTESTERS:\ndadanti360\nInfinit Ninja\nMist\nMrStoica\nTUF_GAMING_10 (aka Berdly)\n(Thanks a lot guys :D)",
     "Thanks for playing! <3"
 };
 
@@ -65,7 +65,12 @@ bool sung = false;
 void Game::handleCredits()
 {
 
-    if (!sung) sndCredits.play(), sung = true;
+    if (!sung)
+    {
+        sndCredits.play(), sung = true;
+        timer = 0.f;
+        currentBlock = 0;
+    }
 
     timer += deltaTime;
 

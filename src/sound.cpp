@@ -24,8 +24,8 @@ void ambienceSound()
         sndCave3,
         sndGrass,
         sndStep,
-        sndSpamton,
-        sndFleeFlee
+        sndFleeFlee,
+        sndFriend
     };
 	sounds[id].play();
 }
